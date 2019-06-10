@@ -21,6 +21,7 @@ import uuid
 from phantom.vault import Vault
 import magic
 import re
+import ipaddress
 from utilities import KennyLoggins, logging, aplutils
 
 
@@ -105,8 +106,15 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                              "hash_ioc": "hash"}
                 reverse_field_map = {v: k for k, v in field_map.items()}
 
+                param_list = ["ipv6_ioc", "ipv4_ioc"]
+
                 def process_delete_ioc(self, ioc):
                     param_key = reverse_field_map.get(ioc.get("field", {}), "not_found")
+                    if param_key in param_list:
+                        try:
+                            ipaddress.ip_address(unicode(param.get(param_key)))
+                        except:
+                            return action_result.set_status(phantom.APP_ERROR, "Invalid IP {0}:{1}".format(param_key, param.get(param_key)))
                     param_value = param.get(param_key, "")
                     self._log.debug("action=using_param_key param_key={} ioc_field={}".format(param_key,
                                                                                               ioc.get("field", {})))
@@ -140,7 +148,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
         except Exception as e:
             self._log.error("Update Report IOC: {}".format(e))
-            return RetVal(phantom.APP_ERROR, "Exception: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occured while deleteing IOC value from the report: {}".format(str(e)))
 
     def _handle_delete_report_ioc_id(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -315,7 +323,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             [action_result.add_data(self._process_iocs_v2(x)) for x in ret.get("results", [])]
             return action_result.set_status(phantom.APP_SUCCESS, "Reports Retrieved")
         except Exception as e:
-            return RetVal(phantom.APP_ERROR, "Exception: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feed report: {}".format(e))
 
     def _handle_delete_feed(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -328,7 +336,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, "Feed Deleted")
         except Exception as e:
             self._log.error("error={}".format(e))
-            return RetVal(phantom.APP_ERROR, "Exception: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occured while deleting feed: {}".format(e))
 
     def _handle_get_single_feed(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -339,7 +347,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             action_result.add_data(ret.get("feedinfo", {}))
             return action_result.set_status(phantom.APP_SUCCESS, "Feed Retrieved")
         except Exception as e:
-            return RetVal(phantom.APP_ERROR, "Exception: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feed: {}".format(e))
 
     def _handle_get_all_feeds(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -353,7 +361,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             [action_result.add_data(x) for x in ret.get("results", [])]
             return action_result.set_status(phantom.APP_SUCCESS, "Feeds Retrieved")
         except Exception as e:
-            return RetVal(phantom.APP_ERROR, "Exception: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feeds: {}".format(e))
 
     def _handle_test_connectivity(self, param):
 
@@ -467,7 +475,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         except Exception as e:
             self.save_progress("Error on Get File Summary: {}".format(e))
             self._log.error("action=error error={}".format(e))
-            return RetVal(phantom.APP_ERROR, "{}".format("Get File Summary error: {}".format(e)))
+            return action_result.set_status(phantom.APP_ERROR, "{}".format("Get File Summary error: {}".format(e)))
         self._log.debug("adding data to action_result")
         if "error_code" in cbr:
             return RetVal(phantom.APP_ERROR, "{}: {}".format(cbr.get("error_code", "UNK"), cbr.get("message", "UNK")))
@@ -501,11 +509,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             if "object has no attribute 'status_code'" in "{}".format(e):
                 self.save_progress("Error on Live Response command: Invalid URL, or Connection Failed{}".format(e))
                 self._log.error("action=error type={} error={}".format(type(e), e))
-                return RetVal(phantom.APP_ERROR, "{}".format("Live Response error: {}".format(e)))
+                return action_result.set_status(phantom.APP_ERROR, "{}".format("Live Response error: {}".format(e)))
             else:
                 self.save_progress("Error on Live Response command: {}".format(e))
                 self._log.error("action=error type={} error={}".format(type(e), e))
-                return RetVal(phantom.APP_ERROR, "{}".format("Live Response error: {}".format(e)))
+                return action_result.set_status(phantom.APP_ERROR, "{}".format("Live Response error: {}".format(e)))
         self._log.debug("adding data to action_result")
         [action_result.add_data(self._process_row(x, reverse_map)) for x in cbr.get("returned_data", [])]
         self._log.debug("updating summary")
@@ -525,6 +533,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
         # Add an action result object to self (BaseConnector) to represent the action for this param
         action_result = self.add_action_result(ActionResult(dict(param)))
+        ip = param.get("ip")
+        try:
+            ipaddress.ip_address(unicode(ip))
+        except:
+            return action_result.set_status(phantom.APP_ERROR, "Invalid IP: {}".format(str(e)))
         # These are configured in the JSON, and set as allowed.
         valid_parameters = ["process_name", "hash", "ip", "domain"]
         # Field mapping is necessary to 'talk' between systems.
@@ -648,7 +661,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         # Optional values should use the .get() function
         optional_config_name = config.get('optional_config_name')
         """
-        self.client = cb_psc_client(base_url=config['base_url'],
+        self.client = cb_psc_client(base_url=config['base_url'].encode('utf-8'),
                                     api_id=config["api_id"],
                                     api_secret_key=config["api_secret_key"],
                                     verify_ssl=config.get("verify_server_cert", False),

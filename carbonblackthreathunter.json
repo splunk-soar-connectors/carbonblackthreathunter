@@ -14,7 +14,7 @@
   "utctime_updated": "2019-02-25T14:18:13.459012Z",
   "package_name": "phantom_carbonblackthreathunter",
   "main_module": "carbonblackthreathunter_connector.py",
-  "min_phantom_version": "4.0.1068",
+  "min_phantom_version": "4.2.7532",
   "app_wizard_version": "1.0.0",
   "configuration": {
     "base_url": {
@@ -250,7 +250,7 @@
             "version"
           ],
           "column_name": "product_version",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.data.*.file_size",
@@ -259,21 +259,21 @@
             "size"
           ],
           "column_name": "file_size",
-          "column_order": 1
+          "column_order": 3
         },
         {
           "data_path": "action_result.data.*.private_build",
           "data_type": "string",
           "contains": [],
           "column_name": "private_build",
-          "column_order": 1
+          "column_order": 4
         },
         {
           "data_path": "action_result.data.*.copyright",
           "data_type": "string",
           "contains": [],
           "column_name": "copyright",
-          "column_order": 1
+          "column_order": 5
         },
         {
           "data_path": "action_result.data.*.file_version",
@@ -282,21 +282,21 @@
             "version"
           ],
           "column_name": "file_version",
-          "column_order": 1
+          "column_order": 6
         },
         {
           "data_path": "action_result.data.*.trademark",
           "data_type": "string",
           "contains": [],
           "column_name": "trademark",
-          "column_order": 1
+          "column_order": 7
         },
         {
           "data_path": "action_result.data.*.comments",
           "data_type": "string",
           "contains": [],
           "column_name": "comments",
-          "column_order": 1
+          "column_order": 8
         },
         {
           "data_path": "action_result.data.*.available_file_size",
@@ -305,28 +305,28 @@
             "size"
           ],
           "column_name": "available_file_size",
-          "column_order": 1
+          "column_order": 9
         },
         {
           "data_path": "action_result.data.*.lang_id",
           "data_type": "string",
           "contains": [],
           "column_name": "lang_id",
-          "column_order": 1
+          "column_order": 10
         },
         {
           "data_path": "action_result.data.*.company_name",
           "data_type": "string",
           "contains": [],
           "column_name": "company_name",
-          "column_order": 1
+          "column_order": 11
         },
         {
           "data_path": "action_result.data.*.internal_name",
           "data_type": "string",
           "contains": [],
           "column_name": "internal_name",
-          "column_order": 1
+          "column_order": 12
         },
         {
           "data_path": "action_result.data.*.sha256",
@@ -336,28 +336,28 @@
             "sha256"
           ],
           "column_name": "sha256",
-          "column_order": 1
+          "column_order": 13
         },
         {
           "data_path": "action_result.data.*.product_name",
           "data_type": "string",
           "contains": [],
           "column_name": "product_name",
-          "column_order": 1
+          "column_order": 14
         },
         {
           "data_path": "action_result.data.*.charset_id",
           "data_type": "string",
           "contains": [],
           "column_name": "charset_id",
-          "column_order": 1
+          "column_order": 15
         },
         {
           "data_path": "action_result.data.*.file_description",
           "data_type": "string",
           "contains": [],
           "column_name": "file_description",
-          "column_order": 1
+          "column_order": 16
         },
         {
           "data_path": "action_result.data.*.md5",
@@ -367,35 +367,35 @@
             "md5"
           ],
           "column_name": "md5",
-          "column_order": 1
+          "column_order": 17
         },
         {
           "data_path": "action_result.data.*.file_available",
           "data_type": "string",
           "contains": [],
           "column_name": "file_available",
-          "column_order": 1
+          "column_order": 18
         },
         {
           "data_path": "action_result.data.*.special_build",
           "data_type": "string",
           "contains": [],
           "column_name": "special_build",
-          "column_order": 1
+          "column_order": 19
         },
         {
           "data_path": "action_result.data.*.product_description",
           "data_type": "string",
           "contains": [],
           "column_name": "product_description",
-          "column_order": 1
+          "column_order": 20
         },
         {
           "data_path": "action_result.data.*.architecture",
           "data_type": "string",
           "contains": [],
           "column_name": "architecture",
-          "column_order": 1
+          "column_order": 21
         },
         {
           "data_path": "action_result.data.*.original_filename",
@@ -404,14 +404,14 @@
             "file name"
           ],
           "column_name": "original_filename",
-          "column_order": 1
+          "column_order": 22
         },
         {
           "data_path": "action_result.data.*.os_type",
           "data_type": "string",
           "contains": [],
           "column_name": "os_type",
-          "column_order": 1
+          "column_order": 23
         }
       ],
       "render": {
@@ -521,7 +521,7 @@
             "hash", "sha256"
           ],
           "column_name": "process_hash_sha256",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.parameter.ip",
@@ -530,7 +530,7 @@
             "ip", "ipv4"
           ],
           "column_name": "ip",
-          "column_order": 2
+          "column_order": 3
         },
         {
           "data_path": "action_result.parameter.domain",
@@ -539,7 +539,7 @@
             "domain"
           ],
           "column_name": "domain",
-          "column_order": 3
+          "column_order": 4
         },
         {
           "data_path": "action_result.data.*.device_name",
@@ -830,21 +830,21 @@
             "feed"
           ],
           "column_name": "feed_id",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.data.*.name",
           "data_type": "string",
           "contains": [],
           "column_name": "name",
-          "column_order": 2
+          "column_order": 3
         },
         {
           "data_path": "action_result.data.*.category",
           "data_type": "string",
           "contains": [],
           "column_name": "category",
-          "column_order": 3
+          "column_order": 4
         },
         {
           "data_path": "action_result.data.*.provider_url",
@@ -853,21 +853,21 @@
             "url"
           ],
           "column_name": "provider_url",
-          "column_order": 4
+          "column_order": 5
         },
         {
           "data_path": "action_result.data.*.access",
           "data_type": "string",
           "contains": [],
           "column_name": "access",
-          "column_order": 5
+          "column_order": 6
         },
         {
           "data_path": "action_result.data.*.owner",
           "data_type": "string",
           "contains": [],
           "column_name": "owner",
-          "column_order": 6
+          "column_order": 7
         }
       ],
       "render": {
@@ -935,7 +935,7 @@
             "feed"
           ],
           "column_name": "feed_id",
-          "column_order": 1
+          "column_order": 2
         }
       ],
       "render": {
@@ -1003,28 +1003,28 @@
             "report"
           ],
           "column_name": "report_id",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.data.*.title",
           "data_type": "string",
           "contains": [],
           "column_name": "title",
-          "column_order": 2
+          "column_order": 3
         },
         {
           "data_path": "action_result.data.*.description",
           "data_type": "string",
           "contains": [],
           "column_name": "description",
-          "column_order": 3
+          "column_order": 4
         },
         {
           "data_path": "action_result.data.*.indicators.*.type",
           "data_type": "string",
           "contains": [],
           "column_name": "indicator_type",
-          "column_order": 4
+          "column_order": 5
         },
         {
           "data_path": "action_result.data.*.indicators.*.values",
@@ -1038,7 +1038,7 @@
             "string"
           ],
           "column_name": "indicator_values",
-          "column_order": 5
+          "column_order": 6
         },
         {
           "data_path": "action_result.data.*.severity",
@@ -1047,7 +1047,7 @@
             "severity"
           ],
           "column_name": "severity",
-          "column_order": 2
+          "column_order": 7
         }
       ],
       "render": {
@@ -1116,7 +1116,7 @@
           "data_type": "string",
           "contains": [],
           "column_name": "name",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.data.*.id",
@@ -1125,14 +1125,14 @@
             "feed"
           ],
           "column_name": "feed_id",
-          "column_order": 2
+          "column_order": 3
         },
         {
           "data_path": "action_result.data.*.category",
           "data_type": "string",
           "contains": [],
           "column_name": "category",
-          "column_order": 3
+          "column_order": 4
         },
         {
           "data_path": "action_result.data.*.provider_url",
@@ -1141,7 +1141,7 @@
             "url"
           ],
           "column_name": "provider_url",
-          "column_order": 4
+          "column_order": 5
         }
       ],
       "render": {
@@ -1175,7 +1175,7 @@
           "contains": [ "ipv6", "ip" ],
           "value_list": [],
           "default": null,
-          "order": 0
+          "order": 1
         },
         "ipv4_ioc": {
           "description": "IPv4 IOC",
@@ -1185,7 +1185,7 @@
           "contains": [ "ipv4", "ip" ],
           "value_list": [],
           "default": null,
-          "order": 0
+          "order": 2
         },
         "domain_ioc": {
           "description": "Domain IOC",
@@ -1195,7 +1195,7 @@
           "contains": [ "domain" ],
           "value_list": [],
           "default": null,
-          "order": 0
+          "order": 3
         }
       },
       "output": [
@@ -1215,7 +1215,7 @@
             "domain"
           ],
           "column_name": "domain",
-          "column_order": 0
+          "column_order": 1
         },
         {
           "data_path": "action_result.parameter.ipv4_ioc",
@@ -1224,7 +1224,7 @@
             "ipv4", "ip"
           ],
           "column_name": "ipv4",
-          "column_order": 0
+          "column_order": 2
         },
         {
           "data_path": "action_result.parameter.ipv6_ioc",
@@ -1233,13 +1233,13 @@
             "ipv6", "ip"
           ],
           "column_name": "ipv6",
-          "column_order": 0
+          "column_order": 3
         },
         {
           "data_path": "action_result.status",
           "data_type": "string",
           "column_name": "status",
-          "column_order": 1
+          "column_order": 4
         },
         {
           "data_path": "action_result.message",
@@ -1258,7 +1258,7 @@
           "data_type": "string",
           "contains": [],
           "column_name": "match_type",
-          "column_order": 1
+          "column_order": 5
         },
         {
           "data_path": "action_result.data.*.id",
@@ -1267,21 +1267,21 @@
             "iocid"
           ],
           "column_name": "iocid",
-          "column_order": 2
+          "column_order": 6
         },
         {
           "data_path": "action_result.data.*.field",
           "data_type": "string",
           "contains": [],
           "column_name": "field",
-          "column_order": 3
+          "column_order": 7
         },
         {
           "data_path": "action_result.data.*.values",
           "data_type": "string",
           "contains": [],
           "column_name": "values",
-          "column_order": 4
+          "column_order": 8
         }
       ],
       "render": {
@@ -1315,7 +1315,7 @@
           "contains": [ "ipv6", "ip" ],
           "value_list": [],
           "default": null,
-          "order": 0
+          "order": 1
         },
         "ipv4_ioc": {
           "description": "IPv4 IOC",
@@ -1325,7 +1325,7 @@
           "contains": [ "ipv4", "ip" ],
           "value_list": [],
           "default": null,
-          "order": 0
+          "order": 2
         },
         "domain_ioc": {
           "description": "Domain IOC",
@@ -1335,7 +1335,7 @@
           "contains": [ "domain" ],
           "value_list": [],
           "default": null,
-          "order": 0
+          "order": 3
         }
       },
       "output": [
@@ -1355,7 +1355,7 @@
             "domain"
           ],
           "column_name": "domain",
-          "column_order": 0
+          "column_order": 1
         },
         {
           "data_path": "action_result.parameter.ipv4_ioc",
@@ -1364,7 +1364,7 @@
             "ipv4", "ip"
           ],
           "column_name": "ipv4",
-          "column_order": 0
+          "column_order": 2
         },
         {
           "data_path": "action_result.parameter.ipv6_ioc",
@@ -1373,13 +1373,13 @@
             "ipv6", "ip"
           ],
           "column_name": "ipv6",
-          "column_order": 0
+          "column_order": 3
         },
         {
           "data_path": "action_result.status",
           "data_type": "string",
           "column_name": "status",
-          "column_order": 1
+          "column_order": 4
         },
         {
           "data_path": "action_result.message",
@@ -1398,7 +1398,7 @@
           "data_type": "string",
           "contains": [],
           "column_name": "match_type",
-          "column_order": 1
+          "column_order": 5
         },
         {
           "data_path": "action_result.data.*.id",
@@ -1407,14 +1407,14 @@
             "iocid"
           ],
           "column_name": "iocid",
-          "column_order": 2
+          "column_order": 6
         },
         {
           "data_path": "action_result.data.*.values",
           "data_type": "string",
           "contains": [],
           "column_name": "values",
-          "column_order": 3
+          "column_order": 7
         }
       ],
       "render": {
@@ -1477,7 +1477,7 @@
           "data_type": "string",
           "contains": [],
           "column_name": "name",
-          "column_order": 1
+          "column_order": 2
         },
         {
           "data_path": "action_result.data.*.id",
@@ -1486,14 +1486,14 @@
             "feed"
           ],
           "column_name": "feed_id",
-          "column_order": 2
+          "column_order": 3
         },
         {
           "data_path": "action_result.data.*.category",
           "data_type": "string",
           "contains": [],
           "column_name": "category",
-          "column_order": 3
+          "column_order": 4
         },
         {
           "data_path": "action_result.data.*.provider_url",
@@ -1502,7 +1502,7 @@
             "url"
           ],
           "column_name": "provider_url",
-          "column_order": 4
+          "column_order": 5
         }
       ],
       "render": {
