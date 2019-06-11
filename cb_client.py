@@ -9,12 +9,12 @@ class cb_psc_client:
     _session = requests.session()
 
     def __init__(self, **kwargs):
-        self.base_url = kwargs["base_url"]
+        self.base_url = kwargs["base_url"].encode('utf-8')
         self.api_url = kwargs["api_url"]
         self.version = kwargs["version"]
-        self.org_key = kwargs["org_key"]
-        self.authorization_header = "{1}/{0}".format(kwargs["api_id"], kwargs["api_secret_key"])
-        self.live_header = "{}/{}".format(kwargs.get("lr_api_secret_key", ""), kwargs.get("lr_api_id", ""))
+        self.org_key = kwargs["org_key"].encode('utf-8')
+        self.authorization_header = "{1}/{0}".format(kwargs["api_id"].encode('utf-8'), kwargs["api_secret_key"])
+        self.live_header = "{}/{}".format(kwargs.get("lr_api_secret_key", ""), kwargs.get("lr_api_id", "").encode('utf-8'))
         self.user_agent_header = "Phantom App/{}".format(self.version)
         self._headers = {"User-Agent": self.user_agent_header,
                          "X-Auth-Token": self.authorization_header,
@@ -26,7 +26,7 @@ class cb_psc_client:
         self.verify = kwargs["verify_ssl"]
         self._last_content = None
         kl = KennyLoggins()
-        self._log = kl.get_logger(app_name="phcarbonblackthreathunter", file_name="/tmp/cb_psc_client",
+        self._log = kl.get_logger(app_name="phcarbonblackthreathunter", file_name="cb_psc_client",
                                   log_level=logging.DEBUG, version=self.version)
         self._log.info("initialize_client=complete")
 
