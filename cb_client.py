@@ -1,3 +1,4 @@
+import phantom.app as phantom
 import requests
 from json import dumps
 import time
@@ -9,12 +10,12 @@ class cb_psc_client:
     _session = requests.session()
 
     def __init__(self, **kwargs):
-        self.base_url = kwargs["base_url"].encode('utf-8')
+        self.base_url = kwargs["base_url"]
         self.api_url = kwargs["api_url"]
         self.version = kwargs["version"]
-        self.org_key = kwargs["org_key"].encode('utf-8')
-        self.authorization_header = "{1}/{0}".format(kwargs["api_id"].encode('utf-8'), kwargs["api_secret_key"])
-        self.live_header = "{}/{}".format(kwargs.get("lr_api_secret_key", ""), kwargs.get("lr_api_id", "").encode('utf-8'))
+        self.org_key = kwargs["org_key"]
+        self.authorization_header = "{1}/{0}".format(kwargs["api_id"], kwargs["api_secret_key"])
+        self.live_header = "{}/{}".format(kwargs.get("lr_api_secret_key", ""), kwargs.get("lr_api_id", ""))
         self.user_agent_header = "Phantom App/{}".format(self.version)
         self._headers = {"User-Agent": self.user_agent_header,
                          "X-Auth-Token": self.authorization_header,
@@ -30,7 +31,7 @@ class cb_psc_client:
                                   log_level=logging.DEBUG, version=self.version)
         self._log.info("initialize_client=complete")
 
-    def has_connectivity(self):
+    def has_connectivity(self, action_result):
         try:
             self._log.debug("status=starting")
             endpoint = "threathunter/feedmgr/healthcheck"
@@ -43,7 +44,7 @@ class cb_psc_client:
                 return False
         except Exception as e:
             self._log.debug("status=error {}".format(e))
-            raise e
+            return action_result.set_status(phantom.APP_ERROR)
 
     def _build_url(self, endpoint):
         if "integrationServices" in endpoint:
@@ -88,7 +89,8 @@ class cb_psc_client:
             self._last_content = "{}: {}: {}".format(url, r.status_code, r.text)
             return r
         except Exception as e:
-            raise Exception(unicode(e.message).encode("utf-8"))
+            # raise Exception(unicode(e.message).encode("utf-8"))
+            return e
 
     def delete(self, endpoint):
         url = self._build_url(endpoint)
