@@ -90,8 +90,8 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         try:
             ipaddress.ip_address(unicode(ip_address_input))
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Invalid IP:{1}".format(e))
-        return phantom.APP_SUCCESS
+            return action_result.set_status(phantom.APP_ERROR, "Invalid IP: {0}".format(e))
+        return action_result.set_status(phantom.APP_SUCCESS)
 
     def _handle_delete_report_ioc(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -377,10 +377,6 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, "Comma separated values are not allowed.")
         try:
             ret = self.client.get_feed(param['feed_id'])
-            self.debug_print("get single feed test")
-            self.debug_print(ret)
-            self.debug_print(type(ret))
-            self.debug_print("get single feed test")
             self.save_progress("Getting a feed {}".format(param['feed_id']))
             self._log.info("status=success length_feeds={}".format(ret.get("results", [])))
             action_result.add_data(ret.get("feedinfo", {}))
@@ -406,25 +402,17 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         self._log.debug("checking for connectivity")
+        self.save_progress("checking for connectivity")
         action_result = self.add_action_result(ActionResult(dict(param)))
         # NOTE: test connectivity does _NOT_ take any parameters
         # i.e. the param dictionary passed to this handler will be empty.
         # Also typically it does not add any data into an action_result either.
         # The status and progress messages are more important.
 
-        self.save_progress("Checking for connectivity")
-        self.debug_print("Meet in Test Connectivity")
-        has_connectivity = self.client.has_connectivity(action_result)
-        if phantom.is_fail(has_connectivity):
-            self.save_progress("Test Connectivity Failed")
-            return action_result.set_status(phantom.APP_ERROR)
-            # return action_result.get_status()
-        # if not self.client.has_connectivity():
-        #     self.debug_print("Meet in Test Connectivity 1")
-        #     # the call to the 3rd party device or service failed, action result should contain all the error details
-        #     # for now the return is commented out, but after implementation, return from here
-        #     self.save_progress("Test Connectivity Failed. {}".format(self.client.last_content()))
-        #     return action_result.get_status()
+        try:
+            self.client.has_connectivity(action_result)
+        except Exception as e:
+            return action_result.set_status(phantom.APP_ERROR, "Test Connectivity Failed")
 
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -631,9 +619,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self._log.debug("action=get_feed directory={}".format(self._directory))
         touchpoint = os.path.join(self._directory, "phcarbonblackthreathunter_feed_state.json")
         static_feed = "{}".format(uuid.uuid5(uuid.NAMESPACE_OID, "Phantom"))
-        self.debug_print("Meet in get cb feed")
         if os.path.isfile(touchpoint):
-            self.debug_print("Meet in get cb feed 1")
             self._log.debug("action=get_feed file_exists={}".format(touchpoint))
             with open(touchpoint, "r") as f:
                 self._feed_state = json.loads(f.readline())
@@ -641,7 +627,6 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         else:
             feeds = self.client.get_all_feeds()
             needed_category = "phantom_created"
-            self.debug_print("Meet in get cb feed 2")
             if not any([(x.get("category", "") == needed_category) for x in feeds.get("results", [])]):
                 feed_information = self.client.create_feed(name="Phantom Created Threat Feed",
                                                            summary="Phantom Created and controlled threat feed",
@@ -663,7 +648,6 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self._log.debug("action=read_feed_state touchpoint={}".format(touchpoint))
         with open(touchpoint, "r") as f:
             self._feed_state = json.loads(f.readline())
-        self.debug_print("Meet in get cb feed end")
         return None
 
     def _update_feed_state(self, key, value):
@@ -726,25 +710,17 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         app_config = aconfig.get("configuration", {})
 
         configuration_errors = self.apl_utils.validate_app_configuration(app_config, config)
-        self.debug_print("conf_error")
-        self.debug_print(configuration_errors)
-        self.debug_print("conf_error end")
         self.save_progress("Validating Asset Settings")
         if not any(configuration_errors):
             try:
                 self._get_cb_feed()
-                self.debug_print("Meet 1")
             # If there are no errors, the list will be "all false", which when negated is "true", meaning no errors.
                 return RetVal(phantom.APP_SUCCESS)
             except Exception as e:
-                self.debug_print("Meet exp")
-                self.save_progress('Error occurred while executing Test Connectivity')
-                self.debug_print("Meet exp 2")
                 message = 'Error: {0}'.format(str(e))
                 return RetVal(phantom.APP_ERROR, message)
 
         self.save_progress("{}".format(", ".join([x for x in configuration_errors if x])))
-        self.debug_print("Meetttt")
         return RetVal(phantom.APP_ERROR, "Failed Configuration Check")
 
     def finalize(self):

@@ -1,4 +1,3 @@
-import phantom.app as phantom
 import requests
 from json import dumps
 import time
@@ -44,7 +43,7 @@ class cb_psc_client:
                 return False
         except Exception as e:
             self._log.debug("status=error {}".format(e))
-            return action_result.set_status(phantom.APP_ERROR)
+            raise Exception(e)
 
     def _build_url(self, endpoint):
         if "integrationServices" in endpoint:
@@ -89,8 +88,7 @@ class cb_psc_client:
             self._last_content = "{}: {}: {}".format(url, r.status_code, r.text)
             return r
         except Exception as e:
-            # raise Exception(unicode(e.message).encode("utf-8"))
-            return e
+            raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def delete(self, endpoint):
         url = self._build_url(endpoint)
@@ -290,7 +288,10 @@ class cb_psc_client:
         map_responses = {"process list": "processes", "get file": "file_id"}
         # Open Season
         self._log.debug("action=start to_call=_open_live_session")
-        open_session = self._open_live_session(device_id)
+        try:
+            open_session = self._open_live_session(device_id)
+        except Exception as e:
+            raise Exception(e)
         self._log.debug("action=end to_call=_open_live_session {}".format(self._process_json(open_session)))
         counter = 0
         session_id = open_session.get("id")
@@ -365,10 +366,11 @@ class cb_psc_client:
     def _feed_process(self, response):
         if "status_code" in response:
             self._log.debug("action=got_response status={} text={}".format(response.status_cod, response.text))
-        if response.status_code == 200:
-            return response.json()
-        if response.status_code == 204:
-            return {}
+        if not isinstance(response, str):
+            if response.status_code == 200:
+                return response.json()
+            if response.status_code == 204:
+                return {}
         raise Exception("Error on Call: status_code={} text={}".format(response.status_code, response.text))
 
     def create_feed(self, name="", owner="", summary="", access="private",
@@ -387,42 +389,75 @@ class cb_psc_client:
             return self._create_private_feed(data)
 
     def _create_private_feed(self, data):
-        return self._feed_process(self.post(self._build_feed_url(), data=dumps(data)))
+        try:
+            return self._feed_process(self.post(self._build_feed_url(), data=dumps(data)))
+        except Exception as e:
+            raise Exception(e)
 
     def _create_public_feed(self, data):
-        return self._feed_process(self.post(self._build_feed_url("/public"), data=dumps(data)))
+        try:
+            return self._feed_process(self.post(self._build_feed_url("/public"), data=dumps(data)))
+        except Exception as e:
+            raise Exception(e)
 
     def get_all_feeds(self, include_public="false"):
-        return self._feed_process(self.get("{}?include_public={}".format(self._build_feed_url(), include_public)))
+        try:
+            return self._feed_process(self.get("{}?include_public={}".format(self._build_feed_url(), include_public)))
+        except Exception as e:
+            raise Exception(e)
 
     def get_feed(self, feed_id):
-        return self._feed_process(self.get(self._build_feed_url("/{}".format(feed_id))))
+        try:
+            return self._feed_process(self.get(self._build_feed_url("/{}".format(feed_id))))
+        except Exception as e:
+            raise Exception(e)
 
     def delete_feed(self, feed_id):
-        return self._feed_process(self.delete(self._build_feed_url("/{}".format(feed_id))))
+        try:
+            return self._feed_process(self.delete(self._build_feed_url("/{}".format(feed_id))))
+        except Exception as e:
+            raise Exception(e)
 
     def get_feed_info(self, feed_id):
-        return self._feed_process(self.get(self._build_feed_url("/{}/feedinfo".format(feed_id))))
+        try:
+            return self._feed_process(self.get(self._build_feed_url("/{}/feedinfo".format(feed_id))))
+        except Exception as e:
+            raise Exception(e)
 
     # Update Feed Info
     def update_feed_info(self, feed_id, meta):
-        return self._feed_process(self.put(self._build_feed_url("/{}/feedinfo".format(feed_id)), data=dumps(meta)))
+        try:
+            return self._feed_process(self.put(self._build_feed_url("/{}/feedinfo".format(feed_id)), data=dumps(meta)))
+        except Exception as e:
+            raise Exception(e)
 
     # Get Threat Reports
     def get_feed_reports(self, feed_id):
-        return self._feed_process(self.get(self._build_feed_url("/{}/reports".format(feed_id))))
+        try:
+            return self._feed_process(self.get(self._build_feed_url("/{}/reports".format(feed_id))))
+        except Exception as e:
+            raise Exception(e)
 
     def replace_feed_reports(self, feed_id, reports):
-        return self._feed_process(self.post(self._build_feed_url("/{}/reports".format(feed_id)), data=dumps(reports)))
+        try:
+            return self._feed_process(self.post(self._build_feed_url("/{}/reports".format(feed_id)), data=dumps(reports)))
+        except Exception as e:
+            raise Exception(e)
 
     def add_feed_report(self, feed_id, report):
         reports = self.get_feed_reports(feed_id).get("results")
         reports.append(report)
-        return self.replace_feed_reports(feed_id, {"reports": reports})
+        try:
+            return self.replace_feed_reports(feed_id, {"reports": reports})
+        except Exception as e:
+            raise Exception(e)
     # Get Specific Report
 
     def get_feed_report(self, feed_id, report_id):
-        return self._feed_process(self.get(self._build_feed_url("/{}/reports/{}".format(feed_id, report_id))))
+        try:
+            return self._feed_process(self.get(self._build_feed_url("/{}/reports/{}".format(feed_id, report_id))))
+        except Exception as e:
+            raise Exception(e)
 
     def add_indicator(self, feed_id, indicator=None, report_id=None):
         report = None
