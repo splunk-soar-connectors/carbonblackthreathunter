@@ -402,17 +402,17 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
         # Add an action result object to self (BaseConnector) to represent the action for this param
         self._log.debug("checking for connectivity")
-        self.save_progress("checking for connectivity")
         action_result = self.add_action_result(ActionResult(dict(param)))
         # NOTE: test connectivity does _NOT_ take any parameters
         # i.e. the param dictionary passed to this handler will be empty.
         # Also typically it does not add any data into an action_result either.
         # The status and progress messages are more important.
 
-        try:
-            self.client.has_connectivity(action_result)
-        except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Test Connectivity Failed")
+        self.save_progress("Checking for connectivity")
+        has_connectivity = self.client.has_connectivity(action_result)
+        if phantom.is_fail(has_connectivity):
+            self.save_progress("Test Connectivity Failed")
+            return action_result.get_status()
 
         self.save_progress("Test Connectivity Passed")
         return action_result.set_status(phantom.APP_SUCCESS)
@@ -467,7 +467,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         try:
             cb_response = self.client.get_file(shash=shash)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting file:", str(unicode(e.message).encode("utf-8")))
+            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting file:", e)
             # return action_result.set_status(phantom.APP_ERROR, "Error occured while getting file: {}".format(str(unicode(e.message).encode("utf-8"))))
         if len(cb_response) < 1:
             return action_result.set_status(phantom.APP_SUCCESS, "No Files Found")

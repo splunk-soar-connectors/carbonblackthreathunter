@@ -1,3 +1,4 @@
+import phantom.app as phantom
 import requests
 from json import dumps
 import time
@@ -37,13 +38,15 @@ class cb_psc_client:
             r = self.get(endpoint)
             if r.status_code == 204:
                 self._last_content = ""
-                return True
+                return action_result.set_status(phantom.APP_SUCCESS, str(r.status_code))
             if r.status_code == 404:
                 self._last_content = "404: URL {} not found".format(self._build_url(endpoint))
-                return False
+                return action_result.set_status(phantom.APP_ERROR, str(r.status_code))
+            return action_result.set_status(phantom.APP_ERROR,
+                        'Error occurred while running connectivity. The output response status code obtained is: {0}'.format(r.status_code))
         except Exception as e:
             self._log.debug("status=error {}".format(e))
-            raise Exception(e)
+            return action_result.set_status(phantom.APP_ERROR, str(e))
 
     def _build_url(self, endpoint):
         if "integrationServices" in endpoint:
@@ -127,7 +130,7 @@ class cb_psc_client:
         except Exception as e:
             self._log.debug("action=exception method=post url={} e=\"{}\"".format(url, e))
             # self._log.error("Post Exception: {} {}".format(r.status_code, r.text))
-            raise e
+            raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def get_file_summary(self, shash):
         endpoint = "ubs/{}/orgs/{}/sha256/{}/metadata".format(self.api_version, self.org_key, shash)
@@ -141,21 +144,24 @@ class cb_psc_client:
         endpoint = "ubs/{}/orgs/{}/file/_download".format(self.api_version, self.org_key)
         self._last_content = "hitting endpoint {}".format(endpoint)
         d = {"sha256": [shash], "expiration_seconds": 60}
-        r = self.post(endpoint, data=dumps(d))
-        self._last_content = "endpoint response: {}: {}".format(r.status_code, r.text)
-        if "error_code" in r.json():
-            resp = r.json()
-            raise Exception("{} - {}: {}   DEBUG: url:{}, d:{}".format(r.status_code, resp.get("error_code"),
-                                                                       resp.get("message"), endpoint, dumps(resp)))
-        retrieved_responses = []
-        if "found" in r.json():
-            resp = r.json()
-            self._last_content = "Found {} hashes".format(len(resp.get("found", [])))
-            retrieved_responses = [{"response": self.external_get(x.get("url")), "hash": x.get("sha256"),
-                                    "summary": self.get_file_summary(x.get("sha256"))} for x in
-                                   resp.get("found", [])]
-        self._last_content = "Retrieved {} hashes".format(len(retrieved_responses))
-        return retrieved_responses
+        try:
+            r = self.post(endpoint, data=dumps(d))
+            self._last_content = "endpoint response: {}: {}".format(r.status_code, r.text)
+            if "error_code" in r.json():
+                resp = r.json()
+                raise Exception("{} - {}: {}   DEBUG: url:{}, d:{}".format(r.status_code, resp.get("error_code"),
+                                                                        resp.get("message"), endpoint, dumps(resp)))
+            retrieved_responses = []
+            if "found" in r.json():
+                resp = r.json()
+                self._last_content = "Found {} hashes".format(len(resp.get("found", [])))
+                retrieved_responses = [{"response": self.external_get(x.get("url")), "hash": x.get("sha256"),
+                                        "summary": self.get_file_summary(x.get("sha256"))} for x in
+                                    resp.get("found", [])]
+            self._last_content = "Retrieved {} hashes".format(len(retrieved_responses))
+            return retrieved_responses
+        except Exception as e:
+            raise Exception(e)
 
     def _search_start(self, query, limit=5000):
         # process_cmdline : Does Not Support Facet
