@@ -152,7 +152,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                             ioc["values"] = ioc_values
                     return ioc
 
-                report["iocs_v2"] = [process_delete_ioc(self, ioc) for ioc in iocsv2]
+                report["iocs_v2"] = [process_delete_ioc(self, ioc) for ioc in iocsv2 if iocsv2 is not None]
                 report["timestamp"] = time.time()
                 self.client.update_feed_report(feed_id, report)
                 self._log.debug(
@@ -595,7 +595,6 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         [action_result.add_data(self._process_row(x, reverse_map)) for x in cb_response.get("data", [])]
         summary = action_result.update_summary({})
         summary['total_objects'] = len(cb_response.get("data", []))
-        summary['full_data'] = cb_response
 
         return action_result.set_status(phantom.APP_SUCCESS, status_message=cb_response.get("message"))
 
@@ -692,6 +691,8 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         # Optional values should use the .get() function
         optional_config_name = config.get('optional_config_name')
         """
+        if config['base_url'][-1] == '/':
+            config['base_url'] = config['base_url'][:-1]
         config_params = ['base_url', 'api_id', 'org_key', 'lr_api_id', 'api_url']
 
         for config_param in config_params:

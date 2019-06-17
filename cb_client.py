@@ -19,7 +19,8 @@ class cb_psc_client:
         self.user_agent_header = "Phantom App/{}".format(self.version)
         self._headers = {"User-Agent": self.user_agent_header,
                          "X-Auth-Token": self.authorization_header,
-                         "Content-Type": "application/json"}
+                         "Content-Type": "application/json",
+                         "Accept": "application/json"}
         self._live_headers = {"User-Agent": self.user_agent_header,
                               "X-Auth-Token": self.live_header,
                               "Content-Type": "application/json"}
@@ -88,10 +89,12 @@ class cb_psc_client:
                 headers=self._current_header,
                 **kwargs
             )
-            self._last_content = "{}: {}: {}".format(url, r.status_code, r.text)
+            self._last_content = "{}: {}: {}".format(url, r.status_code, r.text.encode('utf-8'))
             return r
         except Exception as e:
-            raise Exception(unicode(str(e.message)).encode("utf-8"))
+            # raise Exception("Error: {} {}".format(unicode(str(e.message)).encode("utf-8"), self._last_content))
+            raise Exception("Error occured while getting the response from URL, may be it is an invalid URL {}".format(unicode(str(e.message))))
+            # raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def delete(self, endpoint):
         url = self._build_url(endpoint)
@@ -101,7 +104,7 @@ class cb_psc_client:
             verify=self.verify,
             headers=self._current_header
         )
-        self._last_content = "{}: {}: {}".format(url, r.status_code, r.text)
+        self._last_content = "{}: {}: {}".format(url, r.status_code, r.text.encode('utf-8'))
         return r
 
     def external_get(self, url, **kwargs):
@@ -128,9 +131,11 @@ class cb_psc_client:
                 "status=end url={} code={} content={} headers={}".format(url, r.status_code, r.content, r.headers))
             return r
         except Exception as e:
-            self._log.debug("action=exception method=post url={} e=\"{}\"".format(url, e))
+            raise Exception(e)
+            # self._log.debug("action=exception method=post url={} e=\"{}\"".format(url, e))
+            # raise Exception("Error occured while getting the response from URL, may be it is an invalid URL")
             # self._log.error("Post Exception: {} {}".format(r.status_code, r.text))
-            raise Exception(unicode(str(e.message)).encode("utf-8"))
+            # raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def get_file_summary(self, shash):
         endpoint = "ubs/{}/orgs/{}/sha256/{}/metadata".format(self.api_version, self.org_key, shash)
@@ -146,11 +151,17 @@ class cb_psc_client:
         d = {"sha256": [shash], "expiration_seconds": 60}
         try:
             r = self.post(endpoint, data=dumps(d))
-            self._last_content = "endpoint response: {}: {}".format(r.status_code, r.text)
+            try:
+                resp = r.json()
+            except:
+                raise Exception("Response data is not in json format, got error {}".format(r.status_code))
+
+            self._last_content = "endpoint response: {}: {}".format(r.status_code, r.text.encode('utf-8'))
             if "error_code" in r.json():
                 resp = r.json()
                 raise Exception("{} - {}: {}   DEBUG: url:{}, d:{}".format(r.status_code, resp.get("error_code"),
                                                                         resp.get("message"), endpoint, dumps(resp)))
+
             retrieved_responses = []
             if "found" in r.json():
                 resp = r.json()
@@ -158,6 +169,7 @@ class cb_psc_client:
                 retrieved_responses = [{"response": self.external_get(x.get("url")), "hash": x.get("sha256"),
                                         "summary": self.get_file_summary(x.get("sha256"))} for x in
                                     resp.get("found", [])]
+
             self._last_content = "Retrieved {} hashes".format(len(retrieved_responses))
             return retrieved_responses
         except Exception as e:
@@ -287,7 +299,8 @@ class cb_psc_client:
     def live_response(self, device_id, command, **kwargs):
         # Local 'Globals'
         self._log.debug("status=start")
-        if len(self.api_url) < 1:
+        # if len(self.api_url) < 1:
+        if not self.api_url:
             raise Exception("No Live Response API provided.")
         max_wait_loops = 10
         wait_time = 5
@@ -371,13 +384,13 @@ class cb_psc_client:
 
     def _feed_process(self, response):
         if "status_code" in response:
-            self._log.debug("action=got_response status={} text={}".format(response.status_cod, response.text))
+            self._log.debug("action=got_response status={} text={}".format(response.status_code, response.text.encode('utf-8')))
         if not isinstance(response, str):
             if response.status_code == 200:
                 return response.json()
             if response.status_code == 204:
                 return {}
-        raise Exception("Error on Call: status_code={} text={}".format(response.status_code, response.text))
+        raise Exception("Error on Call: status_code={} text={}".format(response.status_code, response.text.encode('utf-8')))
 
     def create_feed(self, name="", owner="", summary="", access="private",
                     reports=[], **kwargs):
