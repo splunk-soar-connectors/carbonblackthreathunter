@@ -124,6 +124,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                 self._log.debug("report={}".format(report))
             except Exception as e:
                 self._log.warn("feed_id={} report_hash={} report_feed_error={}".format(feed_id, report_hash, e))
+
             if report is not None:
                 iocsv2 = report.get("iocs_v2", [])
                 field_map = {"ipv4_ioc": "netconn_ipv4",
@@ -152,15 +153,18 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                             ioc["values"] = ioc_values
                     return ioc
 
-                report["iocs_v2"] = [process_delete_ioc(self, ioc) for ioc in iocsv2 if iocsv2 is not None]
-                report["timestamp"] = time.time()
-                self.client.update_feed_report(feed_id, report)
-                self._log.debug(
-                    "report={} param={}".format(json.dumps(report),
-                                                json.dumps(param)))
-                self.save_progress("Delete for IOCs: {} {}".format(feed_id, report))
-                [action_result.add_data(x) for x in report.get("iocs_v2", [])]
-                return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
+                if iocsv2 is None:
+                    raise Exception("There is no ioc value in feed report to delete")
+                else:
+                    report["iocs_v2"] = [process_delete_ioc(self, ioc) for ioc in iocsv2]
+                    report["timestamp"] = time.time()
+                    self.client.update_feed_report(feed_id, report)
+                    self._log.debug(
+                        "report={} param={}".format(json.dumps(report),
+                                                    json.dumps(param)))
+                    self.save_progress("Delete for IOCs: {} {}".format(feed_id, report))
+                    [action_result.add_data(x) for x in report.get("iocs_v2", [])]
+                    return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
             else:
                 self.save_progress("Delete IOC: No Report Found")
                 return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
@@ -678,8 +682,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self._log.debug("finished get_config")
         aconfig = self.get_app_json()
         self._log.debug("finished get_app_json")
-        self._directory = os.path.join(os.path.sep, "opt", "phantom", "apps", config.get("directory", ""))
+        cwd = os.getcwd()
+        # self._directory = os.path.join(os.path.sep, "opt", "phantom", "apps", config.get("directory", ""))
+        self._directory = os.path.join(os.path.sep, "{}".format(cwd), "apps", config.get("directory", ""))
         self.version = aconfig.get("app_version", "app_version_unknown")
+
         # self._log.debug("action=configs config={} aconfig={} state={}".format(json.dumps(config), json.dumps(aconfig),
         #                                                                     json.dumps(self._state)))
         """
