@@ -1,4 +1,8 @@
-# -----------------------------------------
+# File: carbonblackthreathunter_connector.py
+# Copyright (c) 2019 Splunk Inc.
+#
+# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
+# without a valid written license from Splunk Inc. is PROHIBITED.# -----------------------------------------
 # Phantom sample App Connector python file
 # -----------------------------------------
 
@@ -355,8 +359,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             self.save_progress("Getting feed reports for {}".format(param['feed_id']))
             self._log.info(
                 "status=success feed={} length_reports={}".format(param['feed_id'], len(ret.get("results", []))))
-            [action_result.add_data(self._process_iocs_v2(x)) for x in ret.get("results", [])]
-            return action_result.set_status(phantom.APP_SUCCESS, "Reports Retrieved")
+            if ret.get("results") is not None:
+                [action_result.add_data(self._process_iocs_v2(x)) for x in ret.get("results")]
+            summary = action_result.update_summary({})
+            summary['total_feed_reports'] = len(action_result.get_data())
+            return action_result.set_status(phantom.APP_SUCCESS)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feed report: {}".format(e))
 
@@ -398,7 +405,9 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             self.save_progress("{}".format(json.dumps(ret)))
             self._log.info("status=success length_feeds={}".format(ret.get("results", [])))
             [action_result.add_data(x) for x in ret.get("results", [])]
-            return action_result.set_status(phantom.APP_SUCCESS, "Feeds Retrieved")
+            summary = action_result.update_summary({})
+            summary['total_feeds'] = len(action_result.get_data())
+            return action_result.set_status(phantom.APP_SUCCESS)
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feeds: {}".format(e))
 
@@ -600,7 +609,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         summary = action_result.update_summary({})
         summary['total_objects'] = len(cb_response.get("data", []))
 
-        return action_result.set_status(phantom.APP_SUCCESS, status_message=cb_response.get("message"))
+        return action_result.set_status(phantom.APP_SUCCESS)
 
     def _process_facet(self, v):
         # Combine the dictionary into a list of keys.
@@ -698,8 +707,10 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         # Optional values should use the .get() function
         optional_config_name = config.get('optional_config_name')
         """
-        if config['base_url'][-1] == '/':
-            config['base_url'] = config['base_url'][:-1]
+        urls = ['base_url', 'api_url']
+        for url in urls:
+            if config[url][-1] == '/':
+                config[url] = config[url][:-1]
         config_params = ['base_url', 'api_id', 'org_key', 'lr_api_id', 'api_url']
 
         for config_param in config_params:

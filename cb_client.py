@@ -1,3 +1,8 @@
+# File: cb_client.py
+# Copyright (c) 2019 Splunk Inc.
+#
+# SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
+# without a valid written license from Splunk Inc. is PROHIBITED.
 import phantom.app as phantom
 import requests
 from json import dumps
@@ -19,8 +24,7 @@ class cb_psc_client:
         self.user_agent_header = "Phantom App/{}".format(self.version)
         self._headers = {"User-Agent": self.user_agent_header,
                          "X-Auth-Token": self.authorization_header,
-                         "Content-Type": "application/json",
-                         "Accept": "application/json"}
+                         "Content-Type": "application/json"}
         self._live_headers = {"User-Agent": self.user_agent_header,
                               "X-Auth-Token": self.live_header,
                               "Content-Type": "application/json"}
@@ -239,7 +243,7 @@ class cb_psc_client:
         self._log.debug("status=start code={}".format(response.status_code))
         if response.status_code == 200:
             return response.json()
-        self._log.debug("status=failed code={} text={}".format(response.status_code, response.text))
+        self._log.debug("status=failed code={} text={}".format(response.status_code, response))
         ret_j = response.json()
         self._log.debug(
             "status=response_received status={} {}".format(response.status_code,

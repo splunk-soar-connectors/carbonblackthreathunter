@@ -8,12 +8,12 @@
     "logo_dark": "carbonblackthreathunter.svg",
     "product_name": "ThreatHunter",
     "product_version_regex": ".*",
-    "publisher": "Carbon Black",
-    "license": "Copyright (c) Carbon Black, 2019",
+    "publisher": "Splunk",
+    "license": "Copyright (c) 2019 Splunk Inc.",
     "app_version": "1.0.0",
     "utctime_updated": "2019-02-25T14:18:13.459012Z",
     "package_name": "phantom_carbonblackthreathunter",
-    "main_module": "carbonblackthreathunter_connector.py",
+    "main_module": "carbonblackthreathunter_connector.pyc",
     "min_phantom_version": "4.2.7532",
     "app_wizard_version": "1.0.0",
     "configuration": {
@@ -21,8 +21,6 @@
             "description": "PSC Console URL",
             "data_type": "string",
             "required": true,
-            "value_list": [],
-            "default": "",
             "order": 0,
             "validation": [
                 {
@@ -41,7 +39,6 @@
             "description": "PSC API URL",
             "data_type": "string",
             "required": false,
-            "default": null,
             "order": 1,
             "validation": [
                 {
@@ -60,14 +57,12 @@
             "description": "PSC API Secret Key (API Key)",
             "data_type": "password",
             "required": true,
-            "default": "",
             "order": 2
         },
         "lr_api_secret_key": {
             "description": "Live Response API Secret Key",
             "data_type": "password",
             "required": false,
-            "default": "",
             "order": 3,
             "example": "somssdssething"
         },
@@ -75,7 +70,6 @@
             "description": "PSC API ID (Connector ID)",
             "data_type": "string",
             "required": true,
-            "default": "",
             "example": "Shoswn",
             "order": 4
         },
@@ -83,14 +77,12 @@
             "description": "Live Response API ID",
             "data_type": "string",
             "required": false,
-            "default": "",
             "order": 5
         },
         "org_key": {
             "description": "PSC Organization Key",
             "data_type": "string",
             "required": true,
-            "default": "",
             "order": 6
         },
         "verify_server_cert": {
@@ -130,8 +122,6 @@
                         "sha256",
                         "hash"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 0
                 }
             },
@@ -207,8 +197,6 @@
                         "sha256",
                         "hash"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 0
                 }
             },
@@ -236,7 +224,6 @@
                 {
                     "data_path": "action_result.data.*.architecture",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Architecture",
                     "column_order": 21
                 },
@@ -252,42 +239,36 @@
                 {
                     "data_path": "action_result.data.*.charset_id",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Charset Id",
                     "column_order": 15
                 },
                 {
                     "data_path": "action_result.data.*.comments",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Comments",
                     "column_order": 8
                 },
                 {
                     "data_path": "action_result.data.*.company_name",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Company Name",
                     "column_order": 11
                 },
                 {
                     "data_path": "action_result.data.*.copyright",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Copyright",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.file_available",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "File Available",
                     "column_order": 18
                 },
                 {
                     "data_path": "action_result.data.*.file_description",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "File Description",
                     "column_order": 16
                 },
@@ -312,14 +293,12 @@
                 {
                     "data_path": "action_result.data.*.internal_name",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Internal Name",
                     "column_order": 12
                 },
                 {
                     "data_path": "action_result.data.*.lang_id",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Lang Id",
                     "column_order": 10
                 },
@@ -345,28 +324,24 @@
                 {
                     "data_path": "action_result.data.*.os_type",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Os Type",
                     "column_order": 23
                 },
                 {
                     "data_path": "action_result.data.*.private_build",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Private Build",
                     "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.product_description",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Product Description",
                     "column_order": 20
                 },
                 {
                     "data_path": "action_result.data.*.product_name",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Product Name",
                     "column_order": 14
                 },
@@ -392,14 +367,12 @@
                 {
                     "data_path": "action_result.data.*.special_build",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Special Build",
                     "column_order": 19
                 },
                 {
                     "data_path": "action_result.data.*.trademark",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Trademark",
                     "column_order": 7
                 },
@@ -433,12 +406,7 @@
                     "description": "The process name",
                     "data_type": "string",
                     "required": false,
-                    "primary": true,
-                    "contains": [
-                        "process name"
-                    ],
-                    "value_list": [],
-                    "default": "",
+                    "primary": false,
                     "order": 0
                 },
                 "hash": {
@@ -451,8 +419,6 @@
                         "sha256",
                         "md5"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 1
                 },
                 "ip": {
@@ -464,8 +430,6 @@
                         "ip",
                         "ipv4"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 2
                 },
                 "domain": {
@@ -476,8 +440,6 @@
                     "contains": [
                         "domain"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 3
                 },
                 "max_results": {
@@ -485,8 +447,6 @@
                     "data_type": "numeric",
                     "required": false,
                     "primary": false,
-                    "contains": [],
-                    "value_list": [],
                     "default": 5000,
                     "order": 4
                 },
@@ -495,7 +455,6 @@
                     "data_type": "string",
                     "required": false,
                     "primary": false,
-                    "contains": [],
                     "value_list": [
                         "AND",
                         "OR"
@@ -542,29 +501,27 @@
                 {
                     "data_path": "action_result.parameter.max_results",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Max Results",
                     "column_order": 10
                 },
                 {
                     "data_path": "action_result.parameter.process_name",
                     "data_type": "string",
-                    "contains": [
-                        "process name"
-                    ],
-                    "column_name": "Process Name"
+                    "column_name": "Process Name",
+                    "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.search_operator",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Search Operator",
                     "column_order": 9
                 },
                 {
                     "data_path": "action_result.data.*.device_id",
                     "data_type": "string",
-                    "contains": [],
+                    "contains": [
+                        "device id"
+                    ],
                     "column_name": "Device Id",
                     "column_order": 5
                 },
@@ -580,7 +537,6 @@
                 {
                     "data_path": "action_result.data.*.process_guid",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Process Guid",
                     "column_order": 7
                 },
@@ -606,19 +562,11 @@
                 },
                 {
                     "data_path": "action_result.data.*.process_name",
-                    "data_type": "string",
-                    "contains": [
-                        "process name"
-                    ],
-                    "column_name": "Process Name",
-                    "column_order": 0
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.process_name",
                     "data_type": "string",
-                    "contains": [
-                        "process name"
-                    ],
                     "column_name": "Process Cmdline",
                     "column_order": 8
                 },
@@ -662,34 +610,29 @@
                     "data_type": "string",
                     "required": true,
                     "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
+                    "contains": [
+                        "device id"
+                    ],
                     "order": 0
                 },
                 "command": {
                     "description": "Command to Execute",
                     "data_type": "string",
                     "required": true,
-                    "primary": true,
-                    "contains": [],
+                    "primary": false,
                     "value_list": [
                         "delete file",
                         "get file",
                         "process list",
                         "kill"
                     ],
-                    "default": "",
                     "order": 1
                 },
                 "object": {
                     "description": "Command Object",
                     "data_type": "string",
                     "required": false,
-                    "primary": true,
-                    "contains": [],
-                    "value_list": [],
-                    "default": "",
+                    "primary": false,
                     "order": 2
                 }
             },
@@ -703,37 +646,33 @@
                 {
                     "data_path": "action_result.parameter.command",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Command",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.parameter.device_id",
                     "data_type": "string",
-                    "contains": [],
+                    "contains": [
+                        "device id"
+                    ],
                     "column_name": "Device Id",
                     "column_order": 0
                 },
                 {
                     "data_path": "action_result.parameter.object",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Object",
                     "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.command_line",
                     "data_type": "string",
-                    "contains": [
-                        "command"
-                    ],
                     "column_order": 9,
                     "column_name": "Command Line"
                 },
                 {
                     "data_path": "action_result.data.*.parent",
                     "data_type": "numeric",
-                    "contains": [],
                     "column_order": 8,
                     "column_name": "Parent"
                 },
@@ -749,7 +688,6 @@
                 {
                     "data_path": "action_result.data.*.pid",
                     "data_type": "numeric",
-                    "contains": [],
                     "column_order": 7,
                     "column_name": "Pid"
                 },
@@ -774,7 +712,6 @@
                 {
                     "data_path": "action_result.summary",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Summary",
                     "column_order": 5
                 },
@@ -804,8 +741,6 @@
                     "contains": [
                         "feed"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 0
                 }
             },
@@ -832,14 +767,12 @@
                 {
                     "data_path": "action_result.data.*.access",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Access",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Category",
                     "column_order": 3
                 },
@@ -853,14 +786,12 @@
                 {
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Name",
                     "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.owner",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Owner",
                     "column_order": 6
                 },
@@ -907,8 +838,6 @@
                     "contains": [
                         "feed"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 0
                 }
             },
@@ -975,8 +904,6 @@
                     "contains": [
                         "feed"
                     ],
-                    "value_list": [],
-                    "default": "",
                     "order": 0
                 }
             },
@@ -1003,7 +930,6 @@
                 {
                     "data_path": "action_result.data.*.description",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Description",
                     "column_order": 4
                 },
@@ -1019,7 +945,6 @@
                 {
                     "data_path": "action_result.data.*.indicators.*.type",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Indicator Type",
                     "column_order": 5
                 },
@@ -1049,7 +974,6 @@
                 {
                     "data_path": "action_result.data.*.title",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Title",
                     "column_order": 3
                 },
@@ -1118,7 +1042,6 @@
                 {
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Category",
                     "column_order": 4
                 },
@@ -1134,7 +1057,6 @@
                 {
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Name",
                     "column_order": 2
                 },
@@ -1181,8 +1103,6 @@
                     "contains": [
                         "hash"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 0
                 },
                 "ipv6_ioc": {
@@ -1194,8 +1114,6 @@
                         "ipv6",
                         "ip"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 1
                 },
                 "ipv4_ioc": {
@@ -1207,8 +1125,6 @@
                         "ipv4",
                         "ip"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 2
                 },
                 "domain_ioc": {
@@ -1219,8 +1135,6 @@
                     "contains": [
                         "domain"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 3
                 }
             },
@@ -1276,7 +1190,6 @@
                 {
                     "data_path": "action_result.data.*.field",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Field",
                     "column_order": 7
                 },
@@ -1292,14 +1205,12 @@
                 {
                     "data_path": "action_result.data.*.match_type",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Match Type",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.values",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Values",
                     "column_order": 8
                 },
@@ -1333,8 +1244,6 @@
                     "contains": [
                         "hash"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 0
                 },
                 "ipv6_ioc": {
@@ -1346,8 +1255,6 @@
                         "ipv6",
                         "ip"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 1
                 },
                 "ipv4_ioc": {
@@ -1359,8 +1266,6 @@
                         "ipv4",
                         "ip"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 2
                 },
                 "domain_ioc": {
@@ -1371,8 +1276,6 @@
                     "contains": [
                         "domain"
                     ],
-                    "value_list": [],
-                    "default": null,
                     "order": 3
                 }
             },
@@ -1437,14 +1340,12 @@
                 {
                     "data_path": "action_result.data.*.match_type",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Match Type",
                     "column_order": 5
                 },
                 {
                     "data_path": "action_result.data.*.values",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Values",
                     "column_order": 7
                 },
@@ -1478,7 +1379,6 @@
                     "contains": [
                         "iocid"
                     ],
-                    "value_list": [],
                     "order": 0
                 }
             },
@@ -1505,7 +1405,6 @@
                 {
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Category",
                     "column_order": 4
                 },
@@ -1521,7 +1420,6 @@
                 {
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
-                    "contains": [],
                     "column_name": "Name",
                     "column_order": 2
                 },
