@@ -79,6 +79,8 @@ class cb_psc_client:
                 **kwargs
             )
             self._last_content = "{}: {}: {}".format(url, r.status_code, r.text)
+            if r.status_code == 403:
+                raise Exception("Found invalid org_key value in configuration parameters")
             return r
         except Exception as e:
             raise e
@@ -93,11 +95,13 @@ class cb_psc_client:
                 headers=self._current_header,
                 **kwargs
             )
+            if r.status_code == 403:
+                raise Exception("Found invalid org_key value in configuration parameters")
             self._last_content = "{}: {}: {}".format(url, r.status_code, r.text.encode('utf-8'))
             return r
         except Exception as e:
             # raise Exception("Error: {} {}".format(unicode(str(e.message)).encode("utf-8"), self._last_content))
-            raise Exception("Error occured while getting the response from URL, may be it is an invalid URL {}".format(unicode(str(e.message))))
+            raise Exception("{}".format(unicode(str(e.message).encode('utf-8'))))
             # raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def delete(self, endpoint):
@@ -131,6 +135,8 @@ class cb_psc_client:
                 json=True,
                 **kwargs
             )
+            if r.status_code == 403:
+                raise Exception("Found invalid org_key value in configuration parameters")
             self._log.debug(
                 "status=end url={} code={} content={} headers={}".format(url, r.status_code, r.content, r.headers))
             return r
@@ -394,6 +400,8 @@ class cb_psc_client:
                 return response.json()
             if response.status_code == 204:
                 return {}
+            if response.status_code == 403:
+                raise Exception("Found invalid org_key value in configuration parameters")
         raise Exception("Error on Call: status_code={} text={}".format(response.status_code, response.text.encode('utf-8')))
 
     def create_feed(self, name="", owner="", summary="", access="private",

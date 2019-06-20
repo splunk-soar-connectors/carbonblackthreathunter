@@ -174,6 +174,8 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                 return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
 
         except Exception as e:
+            if "'NoneType' object has no attribute 'get'" in e.message:
+                return action_result.set_status(phantom.APP_ERROR, "Found invalid org_key value in configuration parameters")
             self._log.error("Update Report IOC: {}".format(e))
             return action_result.set_status(phantom.APP_ERROR, "Error occured while deleteing IOC value from the report: {}".format(str(e)))
 
@@ -221,6 +223,8 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                 return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
 
         except Exception as e:
+            if "'NoneType' object has no attribute 'get'" in e.message:
+                return action_result.set_status(phantom.APP_ERROR, "Found invalid org_key value in configuration parameters")
             self._log.error("Update Report IOC: {}".format(e))
             return action_result.set_status(phantom.APP_ERROR, "Error occured while deleting IOC from the report: {}".format(e))
 
@@ -338,6 +342,8 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, "Update Feed Report Completed")
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
+            if "'NoneType' object has no attribute 'get'" in e.message:
+                return action_result.set_status(phantom.APP_ERROR, "Found invalid org_key value in configuration parameters")
             self._log.error("exception_line={} Update Report IOC: {}".format(exc_tb.tb_lineno, e))
             return action_result.set_status(phantom.APP_ERROR, "Error occured while updating the report: {}".format(e))
 
@@ -346,10 +352,12 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                       "hash": "hash",
                       "netconn_domain": "domain",
                       "md5": "md5"}
-        if "iocs_v2" in report:
+        if report["iocs_v2"] is not None:
             report["indicators"] = [{"type": x["field"] if x["field"] not in map_fields else map_fields[x["field"]],
                                      "values": x["values"]} for x in
                                     report["iocs_v2"]]
+        else:
+            raise Exception("To get the report there is no ioc_v2 value for the requested feed")
         return report
 
     def _handle_get_feed_report(self, param):
@@ -497,10 +505,9 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR,
                                             'Unable to create temporary folder {0}.'.format(temp_dir), e)
-        multiple_results = [
-            self._save_file_to_vault(action_result, x.get("response"), x.get("hash"), x.get("summary"), local_dir) for x
+        [self._save_file_to_vault(action_result, x.get("response"), x.get("hash"), x.get("summary"), local_dir) for x
             in cb_response]
-        return action_result.set_status(phantom.APP_SUCCESS, "Results: {}".format(len(multiple_results)))
+        return action_result.set_status(phantom.APP_SUCCESS, "File is Retrieved for Hash: {}".format(param['file_hash_sha256']))
 
     def _handle_get_file_metadata(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -528,7 +535,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         summary = action_result.update_summary({})
         summary['total_objects'] = len(cbr.get("returned_data", []))
         summary['status'] = cbr.get("status", "unknown")
-        return action_result.set_status(phantom.APP_SUCCESS, status_message=cbr.get("message"))
+        return action_result.set_status(phantom.APP_SUCCESS, "File metadata is retrieved for the file hash: {}".format(param['file_hash_sha256']))
 
     def _handle_live_response(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -691,9 +698,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self._log.debug("finished get_config")
         aconfig = self.get_app_json()
         self._log.debug("finished get_app_json")
-        cwd = os.getcwd()
-        # self._directory = os.path.join(os.path.sep, "opt", "phantom", "apps", config.get("directory", ""))
-        self._directory = os.path.join(os.path.sep, "{}".format(cwd), "apps", config.get("directory", ""))
+        if hasattr(Vault, 'get_vault_tmp_dir'):
+            self._directory = Vault.get_vault_tmp_dir()
+        else:
+            self._directory = os.path.join(os.path.sep, "opt", "phantom", "apps", config.get("directory", ""))
+
         self.version = aconfig.get("app_version", "app_version_unknown")
 
         # self._log.debug("action=configs config={} aconfig={} state={}".format(json.dumps(config), json.dumps(aconfig),
@@ -709,8 +718,9 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         """
         urls = ['base_url', 'api_url']
         for url in urls:
-            if config[url][-1] == '/':
-                config[url] = config[url][:-1]
+            if config[url]:
+                if config[url][-1] == '/':
+                    config[url] = config[url][:-1]
         config_params = ['base_url', 'api_id', 'org_key', 'lr_api_id', 'api_url']
 
         for config_param in config_params:
