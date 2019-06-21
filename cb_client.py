@@ -105,15 +105,20 @@ class cb_psc_client:
             # raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def delete(self, endpoint):
-        url = self._build_url(endpoint)
-        self._log.debug("status=start url={}".format(url))
-        r = self._session.delete(
-            url,
-            verify=self.verify,
-            headers=self._current_header
-        )
-        self._last_content = "{}: {}: {}".format(url, r.status_code, r.text.encode('utf-8'))
-        return r
+        try:
+            url = self._build_url(endpoint)
+            self._log.debug("status=start url={}".format(url))
+            r = self._session.delete(
+                url,
+                verify=self.verify,
+                headers=self._current_header
+            )
+            if "403: Not permissioned for feed" in r.text:
+                raise Exception(r.text)
+            self._last_content = "{}: {}: {}".format(url, r.status_code, r.text.encode('utf-8'))
+            return r
+        except Exception as e:
+            raise Exception(e)
 
     def external_get(self, url, **kwargs):
         if url is None:
@@ -313,7 +318,7 @@ class cb_psc_client:
         if not self.api_url:
             raise Exception("No Live Response API provided.")
         max_wait_loops = 10
-        wait_time = 5
+        wait_time = 120
         map_responses = {"process list": "processes", "get file": "file_id"}
         # Open Season
         self._log.debug("action=start to_call=_open_live_session")
@@ -333,6 +338,7 @@ class cb_psc_client:
                 max_wait_loops, counter, wait_time))
             time.sleep(wait_time)
             get_check = self._check_live_session(session_id)
+
             self._log.debug("action=end to_call=_check_live_session {}".format(self._process_json(get_check)))
             if get_check.get("status") == "ACTIVE":
                 self._log.debug("action=break")

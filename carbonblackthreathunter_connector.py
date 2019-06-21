@@ -2,7 +2,8 @@
 # Copyright (c) 2019 Splunk Inc.
 #
 # SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
-# without a valid written license from Splunk Inc. is PROHIBITED.# -----------------------------------------
+# without a valid written license from Splunk Inc. is PROHIBITED.
+# -----------------------------------------
 # Phantom sample App Connector python file
 # -----------------------------------------
 
@@ -207,17 +208,19 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                     if existing_ioc_id == id_to_delete:
                         return None
                     return ioc
-
-                new_iocs = [process_delete_ioc(self, ioc) for ioc in iocsv2]
-                report["iocs_v2"] = [ioc for ioc in new_iocs if ioc is not None]
-                report["timestamp"] = time.time()
-                self.client.update_feed_report(feed_id, report)
-                self.save_progress("Delete for IOCs: {} {}".format(feed_id, report))
-                self._log.debug(
-                    "report={} param={}".format(json.dumps(report),
-                                                json.dumps(param)))
-                [action_result.add_data(x) for x in report.get("iocs_v2", [])]
-                return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
+                if iocsv2 is None:
+                    raise Exception("There is no iocsv2 value in feed report to delete")
+                else:
+                    new_iocs = [process_delete_ioc(self, ioc) for ioc in iocsv2]
+                    report["iocs_v2"] = [ioc for ioc in new_iocs if ioc is not None]
+                    report["timestamp"] = time.time()
+                    self.client.update_feed_report(feed_id, report)
+                    self.save_progress("Delete for IOCs: {} {}".format(feed_id, report))
+                    self._log.debug(
+                        "report={} param={}".format(json.dumps(report),
+                                                    json.dumps(param)))
+                    [action_result.add_data(x) for x in report.get("iocs_v2", [])]
+                    return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
             else:
                 self.save_progress("Delete IOC: No Report Found")
                 return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
