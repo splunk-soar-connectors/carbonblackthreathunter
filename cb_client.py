@@ -245,7 +245,7 @@ class cb_psc_client:
         query_start = self._search_start(query, limit=limit)
         if "failure" in query_start:
             return query_start
-        return self._search_status(block=True, step=5, guid=query_start.get("success"))
+        return self._search_status(block=True, step=5, guid=query_start.get("query_id"))
 
     # ### Live Response Helpers
 
@@ -318,8 +318,8 @@ class cb_psc_client:
         if not self.api_url:
             raise Exception("No Live Response API provided.")
         max_wait_loops = 10
-        wait_time = 120
-        map_responses = {"process list": "processes", "get file": "file_id"}
+        wait_time = 100
+        map_responses = {"process list": "processes", "get file": "file_id", "delete file": "files"}
         # Open Season
         self._log.debug("action=start to_call=_open_live_session")
         try:
@@ -373,6 +373,9 @@ class cb_psc_client:
                 self._log.debug("action=break")
                 ret_val = get_check
                 break
+            elif get_check.get("status") == "error":
+                self._log.debug("action=break")
+                raise Exception("Found status = error for issue command")
             else:
                 self._log.debug("action=continue")
                 counter = counter + 1

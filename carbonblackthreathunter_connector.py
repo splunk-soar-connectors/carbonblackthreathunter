@@ -172,7 +172,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                     return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
             else:
                 self.save_progress("Delete IOC: No Report Found")
-                return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
+                return action_result.set_status(phantom.APP_ERROR, "Error occurred while Delete IOC: No Report Found found to delete ioc from the Report")
 
         except Exception as e:
             if "'NoneType' object has no attribute 'get'" in e.message:
@@ -570,7 +570,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                 self._log.error("action=error type={} error={}".format(type(e), e))
                 return action_result.set_status(phantom.APP_ERROR, "{}".format("Live Response error: {}".format(e)))
         self._log.debug("adding data to action_result")
-        [action_result.add_data(self._process_row(x, reverse_map)) for x in cbr.get("returned_data", [])]
+        [action_result.add_data(self._process_row(x, reverse_map)) for x in [{"data": cbr.get("returned_data", [])}]]
         self._log.debug("updating summary")
         summary = action_result.update_summary({})
         summary['total_objects'] = len(cbr.get("returned_data", []))
