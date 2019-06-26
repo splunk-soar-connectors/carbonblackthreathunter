@@ -410,7 +410,7 @@
                     "order": 0
                 },
                 "hash": {
-                    "description": "A hash",
+                    "description": "The hash of the process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -422,7 +422,7 @@
                     "order": 1
                 },
                 "ip": {
-                    "description": "An IP Address",
+                    "description": "The remote IPv4 address of the process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -433,7 +433,7 @@
                     "order": 2
                 },
                 "domain": {
-                    "description": "A domain",
+                    "description": "The domain of the process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -467,7 +467,10 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status"
+                    "column_name": "Status",
+                    "example_values": [
+                        "success"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.domain",
@@ -476,7 +479,10 @@
                         "domain"
                     ],
                     "column_name": "Domain",
-                    "column_order": 4
+                    "column_order": 4,
+                    "example_values": [
+                        "www.gstatic.com"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.hash",
@@ -486,7 +492,10 @@
                         "sha256",
                         "md5"
                     ],
-                    "column_name": "Hash"
+                    "column_name": "Hash",
+                    "example_values": [
+                        "7cf5093b6dcfde349399b507a52fb073"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.ip",
@@ -496,25 +505,40 @@
                         "ipv4"
                     ],
                     "column_name": "Ip",
-                    "column_order": 3
+                    "column_order": 3,
+                    "example_values": [
+                        "172.217.6.67"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
                     "data_type": "string",
                     "column_name": "Max Results",
-                    "column_order": 10
+                    "column_order": 10,
+                    "example_values": [
+                        10
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.process_name",
                     "data_type": "string",
                     "column_name": "Process Name",
-                    "column_order": 0
+                    "column_order": 0,
+                    "example_values": [
+                        "chrome.exe"
+                    ],
+                    "contains": [
+                        "file name"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.search_operator",
                     "data_type": "string",
                     "column_name": "Search Operator",
-                    "column_order": 9
+                    "column_order": 9,
+                    "example_values": [
+                        "AND"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.device_id",
@@ -523,7 +547,10 @@
                         "device id"
                     ],
                     "column_name": "Device Id",
-                    "column_order": 5
+                    "column_order": 5,
+                    "example_values": [
+                        10086634
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.device_name",
@@ -532,13 +559,19 @@
                         "host name"
                     ],
                     "column_name": "Device Name",
-                    "column_order": 4
+                    "column_order": 4,
+                    "example_values": [
+                        "cbthreathunter"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.process_guid",
                     "data_type": "string",
                     "column_name": "Process Guid",
-                    "column_order": 7
+                    "column_order": 7,
+                    "example_values": [
+                        "N2MFGG47-0099e8ea-00000cec-00000000-1d527b19a514873"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.process_hash_md5",
@@ -548,7 +581,10 @@
                         "md5"
                     ],
                     "column_name": "Process Hash Md5",
-                    "column_order": 1
+                    "column_order": 1,
+                    "example_values": [
+                        "7cf5093b6dcfde349399b507a52fb073"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.process_hash_sha256",
@@ -558,17 +594,23 @@
                         "sha256"
                     ],
                     "column_name": "Process Hash Sha256",
-                    "column_order": 2
-                },
-                {
-                    "data_path": "action_result.data.*.process_name",
-                    "data_type": "string"
+                    "column_order": 2,
+                    "example_values": [
+                        "be3d2ba94e34bac4ec82540fb9c849e7e1b320359f98a1c3afac5a9ebda2e05a"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.process_name",
                     "data_type": "string",
                     "column_name": "Process Cmdline",
-                    "column_order": 8
+                    "column_order": 8,
+                    "example_values": [
+                        "c:\\program files (x86)\\google\\chrome\\application\\chrome.exe"
+                    ],
+                    "contains": [
+                        "file path",
+                        "file name"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.process_username",
@@ -577,7 +619,10 @@
                         "user name"
                     ],
                     "column_name": "Process Username",
-                    "column_order": 6
+                    "column_order": 6,
+                    "example_values": [
+                        "CBTHREATHUNTER\\herman"
+                    ]
                 },
                 {
                     "data_path": "action_result.summary",
@@ -585,11 +630,161 @@
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Total objects: 10"
+                    ]
                 },
                 {
                     "data_path": "summary.total_objects",
-                    "data_type": "numeric"
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.modload_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.parent_guid",
+                    "data_type": "string",
+                    "example_values": [
+                        "N2MFGG47-0099e8ea-00000ec8-00000000-1d527b199209850"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.filemod_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        279
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.crossproc_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        57
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.parent_pid",
+                    "data_type": "numeric",
+                    "example_values": [
+                        3784
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.index_class",
+                    "data_type": "string",
+                    "example_values": [
+                        "default"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.partition_id",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.device_timestamp",
+                    "data_type": "string",
+                    "example_values": [
+                        "2019-06-26T11:24:43.454Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.regmod_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.process_pid",
+                    "data_type": "numeric",
+                    "example_values": [
+                        3308
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.process_hash",
+                    "data_type": "string",
+                    "example_values": [
+                        "be3d2ba94e34bac4ec82540fb9c849e7e1b320359f98a1c3afac5a9ebda2e05a"
+                    ],
+                    "contains": [
+                        "sha256"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.process_terminated",
+                    "data_type": "boolean",
+                    "example_values": [
+                        true,
+                        false
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.netconn_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        595
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.scriptload_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.device_policy_id",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.org_id",
+                    "data_type": "string",
+                    "example_values": [
+                        "N2MFGG47"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.backend_timestamp",
+                    "data_type": "string",
+                    "example_values": [
+                        "2019-06-26T11:25:13.956Z"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.childproc_count",
+                    "data_type": "numeric",
+                    "example_values": [
+                        0
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        10
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 }
             ],
             "render": {
@@ -734,7 +929,7 @@
             "read_only": true,
             "parameters": {
                 "feed_id": {
-                    "description": "Feed ID",
+                    "description": "ID of the feed",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -749,7 +944,10 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "column_order": 1
+                    "column_order": 1,
+                    "example_values": [
+                        "success"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.feed_id",
@@ -758,7 +956,10 @@
                         "feed"
                     ],
                     "column_name": "Feed Id",
-                    "column_order": 0
+                    "column_order": 0,
+                    "example_values": [
+                        "XKDbmmvQRuuvnc99G99QFQ"
+                    ]
                 },
                 {
                     "data_path": "action_result.data",
@@ -768,32 +969,47 @@
                     "data_path": "action_result.data.*.access",
                     "data_type": "string",
                     "column_name": "Access",
-                    "column_order": 5
+                    "column_order": 5,
+                    "example_values": [
+                        "private"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
                     "column_name": "Category",
-                    "column_order": 3
+                    "column_order": 3,
+                    "example_values": [
+                        "phantom_created"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
                         "feed"
+                    ],
+                    "example_values": [
+                        "XKDbmmvQRuuvnc99G99QFQ"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
                     "column_name": "Name",
-                    "column_order": 2
+                    "column_order": 2,
+                    "example_values": [
+                        "Phantom Created Threat Feed"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.owner",
                     "data_type": "string",
                     "column_name": "Owner",
-                    "column_order": 6
+                    "column_order": 6,
+                    "example_values": [
+                        "N2MFGG47"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.provider_url",
@@ -802,7 +1018,10 @@
                         "url"
                     ],
                     "column_name": "Provider URL",
-                    "column_order": 4
+                    "column_order": 4,
+                    "example_values": [
+                        "https://my.phantom.us"
+                    ]
                 },
                 {
                     "data_path": "action_result.summary",
@@ -810,11 +1029,39 @@
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Feed Retrieved"
+                    ]
                 },
                 {
                     "data_path": "summary.file_type",
                     "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.summary",
+                    "data_type": "string",
+                    "example_values": [
+                        "Phantom Created and controlled threat feed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.source_label",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 }
             ],
             "render": {
@@ -831,7 +1078,7 @@
             "read_only": true,
             "parameters": {
                 "feed_id": {
-                    "description": "Feed ID",
+                    "description": "ID of the feed",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -897,7 +1144,7 @@
             "read_only": true,
             "parameters": {
                 "feed_id": {
-                    "description": "Feed ID",
+                    "description": "ID of the feed",
                     "data_type": "string",
                     "required": true,
                     "primary": true,
@@ -1024,7 +1271,10 @@
                     "data_path": "action_result.status",
                     "data_type": "string",
                     "column_name": "Status",
-                    "column_order": 1
+                    "column_order": 1,
+                    "example_values": [
+                        "success"
+                    ]
                 },
                 {
                     "data_path": "action_result.parameter.include_public",
@@ -1033,7 +1283,11 @@
                         "boolean"
                     ],
                     "column_name": "Include Public",
-                    "column_order": 0
+                    "column_order": 0,
+                    "example_values": [
+                        false,
+                        true
+                    ]
                 },
                 {
                     "data_path": "action_result.data",
@@ -1043,7 +1297,10 @@
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
                     "column_name": "Category",
-                    "column_order": 4
+                    "column_order": 4,
+                    "example_values": [
+                        "phantom_created"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.id",
@@ -1052,13 +1309,19 @@
                         "feed"
                     ],
                     "column_name": "Feed Id",
-                    "column_order": 3
+                    "column_order": 3,
+                    "example_values": [
+                        "XKDbmmvQRuuvnc99G99QFQ"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
                     "column_name": "Name",
-                    "column_order": 2
+                    "column_order": 2,
+                    "example_values": [
+                        "Phantom Created Threat Feed"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.provider_url",
@@ -1067,7 +1330,10 @@
                         "url"
                     ],
                     "column_name": "Provider URL",
-                    "column_order": 5
+                    "column_order": 5,
+                    "example_values": [
+                        "https://my.phantom.us"
+                    ]
                 },
                 {
                     "data_path": "action_result.summary",
@@ -1075,11 +1341,60 @@
                 },
                 {
                     "data_path": "action_result.message",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": [
+                        "Total feeds: 1"
+                    ]
                 },
                 {
                     "data_path": "summary.file_type",
                     "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.summary",
+                    "data_type": "string",
+                    "example_values": [
+                        "Phantom Created and controlled threat feed"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.access",
+                    "data_type": "string",
+                    "example_values": [
+                        "private"
+                    ]
+                },
+                {
+                    "data_path": "action_result.data.*.source_label",
+                    "data_type": "string"
+                },
+                {
+                    "data_path": "action_result.data.*.owner",
+                    "data_type": "string",
+                    "example_values": [
+                        "N2MFGG47"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.total_feeds",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 }
             ],
             "render": {
@@ -1096,7 +1411,7 @@
             "read_only": false,
             "parameters": {
                 "hash_ioc": {
-                    "description": "Hash IOC",
+                    "description": "Hash IOC of the process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1106,7 +1421,7 @@
                     "order": 0
                 },
                 "ipv6_ioc": {
-                    "description": "IPv6 IOC",
+                    "description": "IPv6 IOC of the device or process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1117,7 +1432,7 @@
                     "order": 1
                 },
                 "ipv4_ioc": {
-                    "description": "IPv4 IOC",
+                    "description": "IPv4 IOC of the device or process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1128,7 +1443,7 @@
                     "order": 2
                 },
                 "domain_ioc": {
-                    "description": "Domain IOC",
+                    "description": "Domain IOC of the process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1237,7 +1552,7 @@
             "read_only": false,
             "parameters": {
                 "hash_ioc": {
-                    "description": "Hash IOC",
+                    "description": "Hash IOC of the process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1247,7 +1562,7 @@
                     "order": 0
                 },
                 "ipv6_ioc": {
-                    "description": "IPv6 IOC",
+                    "description": "IPv6 IOC of the device or process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1258,7 +1573,7 @@
                     "order": 1
                 },
                 "ipv4_ioc": {
-                    "description": "IPv4 IOC",
+                    "description": "IPv4 IOC of the device or process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,
@@ -1269,7 +1584,7 @@
                     "order": 2
                 },
                 "domain_ioc": {
-                    "description": "Domain IOC",
+                    "description": "Domain IOC of the process",
                     "data_type": "string",
                     "required": false,
                     "primary": true,

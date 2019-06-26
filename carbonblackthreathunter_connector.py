@@ -172,7 +172,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                     return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
             else:
                 self.save_progress("Delete IOC: No Report Found")
-                return action_result.set_status(phantom.APP_ERROR, "Error occurred while Delete IOC: No Report Found found to delete ioc from the Report")
+                return action_result.set_status(phantom.APP_ERROR, "Error occurred while deleting IOC: No Report Found found to delete ioc from the Report")
 
         except Exception as e:
             if "'NoneType' object has no attribute 'get'" in e.message:
@@ -220,7 +220,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                         "report={} param={}".format(json.dumps(report),
                                                     json.dumps(param)))
                     [action_result.add_data(x) for x in report.get("iocs_v2", [])]
-                    return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
+                    return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed on feed: {}".format(feed_id))
             else:
                 self.save_progress("Delete IOC: No Report Found")
                 return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
@@ -342,7 +342,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             self.save_progress("Set Report for IOCs: {} {}".format(feed_id, report))
             [action_result.add_data(x) for x in report.get("iocs_v2", [])]
             self._log.debug("action=update_feed r={}".format(r))
-            return action_result.set_status(phantom.APP_SUCCESS, "Update Feed Report Completed")
+            return action_result.set_status(phantom.APP_SUCCESS, "Update Feed Report Completed on feed: {}".format(feed_id))
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             if "'NoneType' object has no attribute 'get'" in e.message:

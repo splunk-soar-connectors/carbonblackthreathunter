@@ -113,7 +113,7 @@ class cb_psc_client:
                 verify=self.verify,
                 headers=self._current_header
             )
-            if "403: Not permissioned for feed" in r.text:
+            if "403: Not permissioned for" in r.text:
                 raise Exception(r.text)
             self._last_content = "{}: {}: {}".format(url, r.status_code, r.text.encode('utf-8'))
             return r
@@ -245,7 +245,7 @@ class cb_psc_client:
         query_start = self._search_start(query, limit=limit)
         if "failure" in query_start:
             return query_start
-        return self._search_status(block=True, step=5, guid=query_start.get("query_id"))
+        return self._search_status(block=True, step=5, guid=query_start.get("success"))
 
     # ### Live Response Helpers
 
@@ -375,7 +375,7 @@ class cb_psc_client:
                 break
             elif get_check.get("status") == "error":
                 self._log.debug("action=break")
-                raise Exception("Found status = error for issue command")
+                raise Exception("Found status = error while getting the status of the issue command {}".format(command))
             else:
                 self._log.debug("action=continue")
                 counter = counter + 1
