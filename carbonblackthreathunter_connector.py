@@ -105,6 +105,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
         ipv4 = param.get('ipv4_ioc')
         ipv6 = param.get('ipv6_ioc')
+        domain = param.get('domain_ioc')
+        hash = param.get('hash_ioc')
+
+        if not (ipv4 or ipv6 or domain or hash):
+            return action_result.set_status(phantom.APP_ERROR, "Atleast one parameter needs to be provided")
         if param.get('ipv4_ioc'):
             ret_val = self._is_ip(ipv4, action_result)
             if phantom.is_fail(ret_val):
@@ -172,7 +177,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                     return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
             else:
                 self.save_progress("Delete IOC: No Report Found")
-                return action_result.set_status(phantom.APP_ERROR, "Error occurred while deleting IOC: No Report Found found to delete ioc from the Report")
+                return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
 
         except Exception as e:
             if "'NoneType' object has no attribute 'get'" in e.message:
@@ -238,6 +243,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
         ipv4 = param.get('ipv4_ioc')
         ipv6 = param.get('ipv6_ioc')
+        domain = param.get('domain_ioc')
+        hash = param.get('hash_ioc')
+
+        if not (ipv4 or ipv6 or domain or hash):
+            return action_result.set_status(phantom.APP_ERROR, "Atleast one parameter needs to be provided")
         if param.get('ipv4_ioc'):
             ret_val = self._is_ip(ipv4, action_result)
             if phantom.is_fail(ret_val):
@@ -570,13 +580,27 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                 self._log.error("action=error type={} error={}".format(type(e), e))
                 return action_result.set_status(phantom.APP_ERROR, "{}".format("Live Response error: {}".format(e)))
         self._log.debug("adding data to action_result")
-        [action_result.add_data(self._process_row(x, reverse_map)) for x in [{"data": cbr.get("returned_data", [])}]]
-        self._log.debug("updating summary")
-        summary = action_result.update_summary({})
-        summary['total_objects'] = len(cbr.get("returned_data", []))
-        summary['status'] = cbr.get("status", "unknown")
-
-        return action_result.set_status(phantom.APP_SUCCESS, status_message=cbr.get("message"))
+        command = param.get("command")
+        if command == "get file":
+            data = {"File ID": cbr.get("returned_data", "")}
+            [action_result.add_data(self._process_row(data, reverse_map))]
+            return action_result.set_status(phantom.APP_SUCCESS, "File is retrived. File ID: {}".format(cbr.get("returned_data", "")))
+        if command == "delete file":
+            [action_result.add_data(self._process_row(x, reverse_map)) for x in cbr.get("returned_data", [])]
+            summary = action_result.update_summary({})
+            summary['total_objects'] = len(cbr.get("returned_data", []))
+            summary['status'] = cbr.get("status", "unknown")
+            return action_result.set_status(phantom.APP_SUCCESS, "File is deleted")
+        if command == "process list":
+            [action_result.add_data(self._process_row(x, reverse_map)) for x in cbr.get("returned_data", [])]
+            summary = action_result.update_summary({})
+            summary['total_objects'] = len(cbr.get("returned_data", []))
+            summary['status'] = cbr.get("status", "unknown")
+            return action_result.set_status(phantom.APP_SUCCESS, status_message=cbr.get("message"))
+        if command == "kill":
+            data = {"pid": cbr.get("returned_data", "")}
+            [action_result.add_data(self._process_row(data, reverse_map))]
+            return action_result.set_status(phantom.APP_SUCCESS, status_message=cbr.get("message"))
 
     def _handle_threat_feed(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))

@@ -319,7 +319,7 @@ class cb_psc_client:
             raise Exception("No Live Response API provided.")
         max_wait_loops = 10
         wait_time = 100
-        map_responses = {"process list": "processes", "get file": "file_id", "delete file": "files"}
+        map_responses = {"process list": "processes", "get file": "file_id", "delete file": "files", "kill": "pid"}
         # Open Season
         self._log.debug("action=start to_call=_open_live_session")
         try:
