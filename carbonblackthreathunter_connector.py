@@ -352,7 +352,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             self.save_progress("Set Report for IOCs: {} {}".format(feed_id, report))
             [action_result.add_data(x) for x in report.get("iocs_v2", [])]
             self._log.debug("action=update_feed r={}".format(r))
-            return action_result.set_status(phantom.APP_SUCCESS, "Update Feed Report Completed on feed: {}".format(feed_id))
+            return action_result.set_status(phantom.APP_SUCCESS, "Update Feed Report Completed on feed ID: {}".format(feed_id))
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
             if "'NoneType' object has no attribute 'get'" in e.message:

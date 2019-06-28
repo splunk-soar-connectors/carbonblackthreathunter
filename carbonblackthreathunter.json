@@ -132,7 +132,8 @@
                     "column_name": "Status",
                     "column_order": 1,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -423,7 +424,8 @@
                     "column_name": "Status",
                     "column_order": 1,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -792,7 +794,8 @@
                     "data_type": "string",
                     "column_name": "Status",
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -1120,7 +1123,7 @@
             "identifier": "live_response",
             "description": "Take Action on remote endpoint",
             "verbose": "",
-            "type": "contain",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "device_id": {
@@ -1161,7 +1164,8 @@
                     "column_name": "Status",
                     "column_order": 1,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -1479,7 +1483,7 @@
             "identifier": "delete_feed",
             "description": "Delete Single Feed",
             "verbose": "",
-            "type": "investigate",
+            "type": "generic",
             "read_only": true,
             "parameters": {
                 "feed_id": {
@@ -1579,7 +1583,8 @@
                     "column_name": "Status",
                     "column_order": 1,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -1769,7 +1774,9 @@
                 }
             ],
             "render": {
-                "type": "table"
+                "type": "custom",
+                "title": "Templates",
+                "view": "carbonblackthreathunter_view.display_view"
             },
             "versions": "EQ(*)"
         },
@@ -1804,7 +1811,8 @@
                     "column_name": "Status",
                     "column_order": 1,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -1938,8 +1946,8 @@
             "action": "create report ioc",
             "identifier": "create_report_ioc",
             "description": "Add an IOC to a report",
-            "verbose": "",
-            "type": "contain",
+            "verbose": "Atleast one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "hash_ioc": {
@@ -1993,7 +2001,8 @@
                     "column_name": "Status",
                     "column_order": 4,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2129,8 +2138,8 @@
             "action": "delete ioc value",
             "identifier": "delete_ioc_value",
             "description": "Delete IOC value from a report",
-            "verbose": "",
-            "type": "contain",
+            "verbose": "Atleast one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "hash_ioc": {
@@ -2184,7 +2193,8 @@
                     "column_name": "Status",
                     "column_order": 4,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
@@ -2322,8 +2332,8 @@
             "action": "delete report ioc",
             "identifier": "delete_report_ioc",
             "description": "Remove an IOC from a report",
-            "verbose": "",
-            "type": "contain",
+            "verbose": "Before executing the action the container type should be changed from 'default' to 'case'",
+            "type": "generic",
             "read_only": false,
             "parameters": {
                 "iocid": {
@@ -2344,7 +2354,8 @@
                     "column_name": "Status",
                     "column_order": 1,
                     "example_values": [
-                        "success"
+                        "success",
+                        "failed"
                     ]
                 },
                 {
