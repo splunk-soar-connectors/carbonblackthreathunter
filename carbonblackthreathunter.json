@@ -150,10 +150,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.data.*.file_details.architecture",
                     "data_type": "string",
                     "example_values": [
@@ -163,6 +159,9 @@
                 {
                     "data_path": "action_result.data.*.file_details.available_file_size",
                     "data_type": "numeric",
+                    "contains": [
+                        "file size"
+                    ],
                     "example_values": [
                         27136
                     ]
@@ -210,6 +209,9 @@
                 {
                     "data_path": "action_result.data.*.file_details.file_size",
                     "data_type": "numeric",
+                    "contains": [
+                        "file size"
+                    ],
                     "example_values": [
                         27136
                     ]
@@ -217,6 +219,9 @@
                 {
                     "data_path": "action_result.data.*.file_details.file_version",
                     "data_type": "string",
+                    "contains": [
+                        "cbthreathunter file version"
+                    ],
                     "example_values": [
                         "6.1.7600.16385 (win7_rtm.090713-1255)"
                     ]
@@ -283,6 +288,9 @@
                 {
                     "data_path": "action_result.data.*.file_details.product_version",
                     "data_type": "string",
+                    "contains": [
+                        "cbthreathunter product version"
+                    ],
                     "example_values": [
                         "6.1.7600.16385"
                     ]
@@ -320,19 +328,14 @@
                 {
                     "data_path": "action_result.data.*.vault_id",
                     "data_type": "string",
-                    "column_name": "Vault Id",
+                    "column_name": "Vault ID",
                     "column_order": 2,
                     "example_values": [
                         "619652b42afe5fb0e3719d7aeda7a5494ab193e8"
                     ],
                     "contains": [
-                        "vault id",
-                        "sha1"
+                        "vault id"
                     ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.file_type",
@@ -358,7 +361,6 @@
                         "619652b42afe5fb0e3719d7aeda7a5494ab193e8"
                     ],
                     "contains": [
-                        "sha1",
                         "vault id"
                     ]
                 },
@@ -442,10 +444,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.data.*.architecture",
                     "data_type": "string",
                     "column_name": "Architecture",
@@ -458,7 +456,7 @@
                     "data_path": "action_result.data.*.available_file_size",
                     "data_type": "string",
                     "contains": [
-                        "size"
+                        "file size"
                     ],
                     "column_name": "Available File Size",
                     "column_order": 9,
@@ -469,7 +467,7 @@
                 {
                     "data_path": "action_result.data.*.charset_id",
                     "data_type": "string",
-                    "column_name": "Charset Id",
+                    "column_name": "Charset ID",
                     "column_order": 15,
                     "example_values": [
                         1200
@@ -480,7 +478,9 @@
                     "data_type": "string",
                     "column_name": "Comments",
                     "column_order": 8,
-                    "example_values": []
+                    "example_values": [
+                        "Test Comments"
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.company_name",
@@ -533,7 +533,7 @@
                     "data_path": "action_result.data.*.file_size",
                     "data_type": "string",
                     "contains": [
-                        "size"
+                        "file size"
                     ],
                     "column_name": "File Size",
                     "column_order": 3,
@@ -545,7 +545,7 @@
                     "data_path": "action_result.data.*.file_version",
                     "data_type": "string",
                     "contains": [
-                        "version"
+                        "cbthreathunter file version"
                     ],
                     "column_name": "File Version",
                     "column_order": 6,
@@ -568,7 +568,7 @@
                 {
                     "data_path": "action_result.data.*.lang_id",
                     "data_type": "string",
-                    "column_name": "Lang Id",
+                    "column_name": "Lang ID",
                     "column_order": 10,
                     "example_values": [
                         1033
@@ -578,10 +578,9 @@
                     "data_path": "action_result.data.*.md5",
                     "data_type": "string",
                     "contains": [
-                        "hash",
                         "md5"
                     ],
-                    "column_name": "Md5",
+                    "column_name": "MD5",
                     "column_order": 17,
                     "example_values": [
                         "c78655bc80301d76ed4fef1c1ea40a7d"
@@ -602,7 +601,7 @@
                 {
                     "data_path": "action_result.data.*.os_type",
                     "data_type": "string",
-                    "column_name": "Os Type",
+                    "column_name": "OS Type",
                     "column_order": 23,
                     "example_values": [
                         "WINDOWS"
@@ -612,15 +611,13 @@
                     "data_path": "action_result.data.*.private_build",
                     "data_type": "string",
                     "column_name": "Private Build",
-                    "column_order": 4,
-                    "example_values": []
+                    "column_order": 4
                 },
                 {
                     "data_path": "action_result.data.*.product_description",
                     "data_type": "string",
                     "column_name": "Product Description",
-                    "column_order": 20,
-                    "example_values": []
+                    "column_order": 20
                 },
                 {
                     "data_path": "action_result.data.*.product_name",
@@ -635,7 +632,7 @@
                     "data_path": "action_result.data.*.product_version",
                     "data_type": "string",
                     "contains": [
-                        "version"
+                        "cbthreathunter product version"
                     ],
                     "column_name": "Product Version",
                     "column_order": 2,
@@ -647,7 +644,6 @@
                     "data_path": "action_result.data.*.sha256",
                     "data_type": "string",
                     "contains": [
-                        "hash",
                         "sha256"
                     ],
                     "column_name": "Sha256",
@@ -657,19 +653,13 @@
                     "data_path": "action_result.data.*.special_build",
                     "data_type": "string",
                     "column_name": "Special Build",
-                    "column_order": 19,
-                    "example_values": []
+                    "column_order": 19
                 },
                 {
                     "data_path": "action_result.data.*.trademark",
                     "data_type": "string",
                     "column_name": "Trademark",
-                    "column_order": 7,
-                    "example_values": []
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
+                    "column_order": 7
                 },
                 {
                     "data_path": "action_result.summary.status",
@@ -752,8 +742,7 @@
                     "required": false,
                     "primary": true,
                     "contains": [
-                        "ip",
-                        "ipv4"
+                        "ip"
                     ],
                     "order": 2
                 },
@@ -807,7 +796,7 @@
                     "column_name": "Domain",
                     "column_order": 4,
                     "example_values": [
-                        "www.gstatic.com"
+                        "www.splunk.com"
                     ]
                 },
                 {
@@ -827,10 +816,9 @@
                     "data_path": "action_result.parameter.ip",
                     "data_type": "string",
                     "contains": [
-                        "ip",
-                        "ipv4"
+                        "ip"
                     ],
-                    "column_name": "Ip",
+                    "column_name": "IP",
                     "column_order": 3,
                     "example_values": [
                         "172.217.6.67"
@@ -893,7 +881,7 @@
                     "contains": [
                         "device id"
                     ],
-                    "column_name": "Device Id",
+                    "column_name": "Device ID",
                     "column_order": 5,
                     "example_values": [
                         10086634
@@ -984,7 +972,7 @@
                 {
                     "data_path": "action_result.data.*.process_guid",
                     "data_type": "string",
-                    "column_name": "Process Guid",
+                    "column_name": "Process GUID",
                     "column_order": 7,
                     "example_values": [
                         "N2MFGG47-0099e8ea-00000cec-00000000-1d527b19a514873"
@@ -1004,10 +992,9 @@
                     "data_path": "action_result.data.*.process_hash_md5",
                     "data_type": "string",
                     "contains": [
-                        "hash",
                         "md5"
                     ],
-                    "column_name": "Process Hash Md5",
+                    "column_name": "Process Hash MD5",
                     "column_order": 1,
                     "example_values": [
                         "7cf5093b6dcfde349399b507a52fb073"
@@ -1017,7 +1004,6 @@
                     "data_path": "action_result.data.*.process_hash_sha256",
                     "data_type": "string",
                     "contains": [
-                        "hash",
                         "sha256"
                     ],
                     "column_name": "Process Hash Sha256",
@@ -1063,7 +1049,7 @@
                     "column_name": "Process Username",
                     "column_order": 6,
                     "example_values": [
-                        "CBTHREATHUNTER\\herman"
+                        "CBTHREATHUNTER\\testuser"
                     ]
                 },
                 {
@@ -1081,21 +1067,17 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Total objects: 10"
+                    ]
                 },
                 {
                     "data_path": "action_result.summary.total_objects",
                     "data_type": "numeric",
                     "example_values": [
                         10
-                    ]
-                },
-                {
-                    "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_values": [
-                        "Total objects: 10"
                     ]
                 },
                 {
@@ -1183,7 +1165,7 @@
                     "contains": [
                         "device id"
                     ],
-                    "column_name": "Device Id",
+                    "column_name": "Device ID",
                     "column_order": 0,
                     "example_values": [
                         "1155127"
@@ -1198,7 +1180,7 @@
                 {
                     "data_path": "action_result.data.*.command_line",
                     "data_type": "string",
-                    "column_order": 9,
+                    "column_order": 8,
                     "column_name": "Command Line",
                     "example_values": [
                         ""
@@ -1218,7 +1200,7 @@
                 {
                     "data_path": "action_result.data.*.parent",
                     "data_type": "numeric",
-                    "column_order": 8,
+                    "column_order": 7,
                     "column_name": "Parent",
                     "example_values": [
                         0
@@ -1238,7 +1220,7 @@
                         "path",
                         "file name"
                     ],
-                    "column_order": 6,
+                    "column_order": 5,
                     "column_name": "Path",
                     "example_values": [
                         "System"
@@ -1247,8 +1229,8 @@
                 {
                     "data_path": "action_result.data.*.pid",
                     "data_type": "numeric",
-                    "column_order": 7,
-                    "column_name": "Pid",
+                    "column_order": 6,
+                    "column_name": "PID",
                     "example_values": [
                         4
                     ],
@@ -1262,8 +1244,8 @@
                     "contains": [
                         "sid"
                     ],
-                    "column_order": 10,
-                    "column_name": "Sid",
+                    "column_order": 9,
+                    "column_name": "SID",
                     "example_values": [
                         ""
                     ]
@@ -1272,20 +1254,13 @@
                     "data_path": "action_result.data.*.username",
                     "data_type": "string",
                     "contains": [
-                        "user",
                         "user name"
                     ],
                     "column_name": "Username",
                     "column_order": 4,
                     "example_values": [
-                        ""
+                        "testuser"
                     ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string",
-                    "column_name": "Summary",
-                    "column_order": 5
                 },
                 {
                     "data_path": "action_result.summary.status",
@@ -1342,7 +1317,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
                     "order": 0
                 }
@@ -1362,17 +1337,13 @@
                     "data_path": "action_result.parameter.feed_id",
                     "data_type": "string",
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
-                    "column_name": "Feed Id",
+                    "column_name": "Feed ID",
                     "column_order": 0,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
                     ]
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.access",
@@ -1389,14 +1360,14 @@
                     "column_name": "Category",
                     "column_order": 3,
                     "example_values": [
-                        "phantom_created"
+                        "test_created"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
@@ -1408,7 +1379,7 @@
                     "column_name": "Name",
                     "column_order": 2,
                     "example_values": [
-                        "Phantom Created Threat Feed"
+                        "TestURL Created Threat Feed"
                     ]
                 },
                 {
@@ -1429,7 +1400,7 @@
                     "column_name": "Provider URL",
                     "column_order": 4,
                     "example_values": [
-                        "https://my.phantom.us"
+                        "https://my.test.us"
                     ]
                 },
                 {
@@ -1440,7 +1411,7 @@
                     "data_path": "action_result.data.*.summary",
                     "data_type": "string",
                     "example_values": [
-                        "Phantom Created and controlled threat feed"
+                        "Test Created and controlled threat feed"
                     ]
                 },
                 {
@@ -1492,7 +1463,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
                     "order": 0
                 }
@@ -1512,25 +1483,21 @@
                     "data_path": "action_result.parameter.feed_id",
                     "data_type": "string",
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
-                    "column_name": "Feed Id",
+                    "column_name": "Feed ID",
                     "column_order": 0,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
                     ]
                 },
                 {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
-                    "column_name": "Feed Id",
+                    "column_name": "Feed ID",
                     "column_order": 2,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
@@ -1550,6 +1517,20 @@
                 {
                     "data_path": "summary.file_type",
                     "data_type": "string"
+                },
+                {
+                    "data_path": "summary.total_objects",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
+                },
+                {
+                    "data_path": "summary.total_objects_successful",
+                    "data_type": "numeric",
+                    "example_values": [
+                        1
+                    ]
                 }
             ],
             "render": {
@@ -1571,7 +1552,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
                     "order": 0
                 }
@@ -1591,17 +1572,13 @@
                     "data_path": "action_result.parameter.feed_id",
                     "data_type": "string",
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
-                    "column_name": "Feed Id",
+                    "column_name": "Feed ID",
                     "column_order": 0,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
                     ]
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.description",
@@ -1616,10 +1593,10 @@
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
-                        "report",
+                        "cbthreathunter report id",
                         "md5"
                     ],
-                    "column_name": "Report Id",
+                    "column_name": "Report ID",
                     "column_order": 2,
                     "example_values": [
                         "3e76f6d37db9776c303c5946f58a1efe"
@@ -1710,7 +1687,7 @@
                     "data_path": "action_result.data.*.tags",
                     "data_type": "string",
                     "example_values": [
-                        "phantom_created"
+                        "test_created"
                     ]
                 },
                 {
@@ -1735,10 +1712,6 @@
                     "example_values": [
                         "private"
                     ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.total_feed_reports",
@@ -1829,10 +1802,6 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.data.*.access",
                     "data_type": "string",
                     "example_values": [
@@ -1845,16 +1814,16 @@
                     "column_name": "Category",
                     "column_order": 4,
                     "example_values": [
-                        "phantom_created"
+                        "test_created"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
-                        "feed"
+                        "cbthreathunter feed id"
                     ],
-                    "column_name": "Feed Id",
+                    "column_name": "Feed ID",
                     "column_order": 3,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
@@ -1866,7 +1835,7 @@
                     "column_name": "Name",
                     "column_order": 2,
                     "example_values": [
-                        "Phantom Created Threat Feed"
+                        "Test Created Threat Feed"
                     ]
                 },
                 {
@@ -1885,24 +1854,19 @@
                     "column_name": "Provider URL",
                     "column_order": 5,
                     "example_values": [
-                        "https://my.phantom.us"
+                        "https://my.test.us"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.source_label",
-                    "data_type": "string",
-                    "example_values": []
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.summary",
                     "data_type": "string",
                     "example_values": [
-                        "Phantom Created and controlled threat feed"
+                        "Test Created and controlled threat feed"
                     ]
-                },
-                {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.summary.total_feeds",
@@ -1967,8 +1931,7 @@
                     "required": false,
                     "primary": true,
                     "contains": [
-                        "ipv6",
-                        "ip"
+                        "ipv6"
                     ],
                     "order": 1
                 },
@@ -1978,7 +1941,6 @@
                     "required": false,
                     "primary": true,
                     "contains": [
-                        "ipv4",
                         "ip"
                     ],
                     "order": 2
@@ -2034,10 +1996,9 @@
                     "data_path": "action_result.parameter.ipv4_ioc",
                     "data_type": "string",
                     "contains": [
-                        "ipv4",
                         "ip"
                     ],
-                    "column_name": "Ipv4",
+                    "column_name": "IPv4",
                     "column_order": 2,
                     "example_values": [
                         "10.1.18.251"
@@ -2047,18 +2008,13 @@
                     "data_path": "action_result.parameter.ipv6_ioc",
                     "data_type": "string",
                     "contains": [
-                        "ipv6",
-                        "ip"
+                        "ipv6"
                     ],
-                    "column_name": "Ipv6",
+                    "column_name": "IPv6",
                     "column_order": 3,
                     "example_values": [
                         "FF02:0000:0000:0000:0000:0000:0001:0003"
                     ]
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.field",
@@ -2073,9 +2029,9 @@
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
-                        "iocid"
+                        "cbthreathunter ioc id"
                     ],
-                    "column_name": "Iocid",
+                    "column_name": "IOC ID",
                     "column_order": 6,
                     "example_values": [
                         "fb88e47d-6956-437b-b75c-a435b928c30d"
@@ -2159,8 +2115,7 @@
                     "required": false,
                     "primary": true,
                     "contains": [
-                        "ipv6",
-                        "ip"
+                        "ipv6"
                     ],
                     "order": 1
                 },
@@ -2170,7 +2125,6 @@
                     "required": false,
                     "primary": true,
                     "contains": [
-                        "ipv4",
                         "ip"
                     ],
                     "order": 2
@@ -2226,10 +2180,9 @@
                     "data_path": "action_result.parameter.ipv4_ioc",
                     "data_type": "string",
                     "contains": [
-                        "ipv4",
                         "ip"
                     ],
-                    "column_name": "Ipv4",
+                    "column_name": "IPv4",
                     "column_order": 2,
                     "example_values": [
                         "10.1.18.251"
@@ -2239,18 +2192,13 @@
                     "data_path": "action_result.parameter.ipv6_ioc",
                     "data_type": "string",
                     "contains": [
-                        "ipv6",
-                        "ip"
+                        "ipv6"
                     ],
-                    "column_name": "Ipv6",
+                    "column_name": "IPv6",
                     "column_order": 3,
                     "example_values": [
                         "FF02:0000:0000:0000:0000:0000:0001:0003"
                     ]
-                },
-                {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.field",
@@ -2263,9 +2211,9 @@
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
-                        "iocid"
+                        "cbthreathunter ioc id"
                     ],
-                    "column_name": "Iocid",
+                    "column_name": "IOC ID",
                     "column_order": 6,
                     "example_values": [
                         "d76d08bb-4f42-49d8-a829-c4de2b70869c"
@@ -2273,8 +2221,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.link",
-                    "data_type": "string",
-                    "example_values": []
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.match_type",
@@ -2342,7 +2289,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "iocid"
+                        "cbthreathunter ioc id"
                     ],
                     "order": 0
                 }
@@ -2351,8 +2298,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
@@ -2362,23 +2307,17 @@
                     "data_path": "action_result.parameter.iocid",
                     "data_type": "string",
                     "contains": [
-                        "iocid"
+                        "cbthreathunter ioc id"
                     ],
-                    "column_name": "Iocid",
-                    "column_order": 0,
                     "example_values": [
                         "fb88e47d-6956-437b-b75c-a435b928c30d"
                     ]
                 },
                 {
-                    "data_path": "action_result.data",
-                    "data_type": "string"
-                },
-                {
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
                     "column_name": "Category",
-                    "column_order": 4
+                    "column_order": 3
                 },
                 {
                     "data_path": "action_result.data.*.field",
@@ -2391,10 +2330,10 @@
                     "data_path": "action_result.data.*.id",
                     "data_type": "string",
                     "contains": [
-                        "feed"
+                        "cbthreathunter ioc id"
                     ],
-                    "column_name": "Feed Id",
-                    "column_order": 3,
+                    "column_name": "Undeleted IOC IDs",
+                    "column_order": 0,
                     "example_values": [
                         "739ea2cc-6186-437f-8124-4732c356a601"
                     ]
@@ -2414,7 +2353,7 @@
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
                     "column_name": "Name",
-                    "column_order": 2
+                    "column_order": 1
                 },
                 {
                     "data_path": "action_result.data.*.provider_url",
@@ -2423,7 +2362,7 @@
                         "url"
                     ],
                     "column_name": "Provider URL",
-                    "column_order": 5
+                    "column_order": 2
                 },
                 {
                     "data_path": "action_result.data.*.values",

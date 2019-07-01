@@ -369,9 +369,9 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             report["indicators"] = [{"type": x["field"] if x["field"] not in map_fields else map_fields[x["field"]],
                                      "values": x["values"]} for x in
                                     report["iocs_v2"]]
+            return report
         else:
             raise Exception("To get the report there is no ioc_v2 value for the requested feed")
-        return report
 
     def _handle_get_feed_report(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
