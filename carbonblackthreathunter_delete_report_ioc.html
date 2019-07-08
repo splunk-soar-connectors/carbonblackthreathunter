@@ -9,7 +9,7 @@
 
 {% block widget_content %} <!-- Main Start Block -->
 
-<!-- File: carbonblackthreathunter_get_feed_reports.html
+<!-- File: carbonblackthreathunter_delete_report_ioc.html
   Copyright (c) 2019 Splunk Inc.
 
   SPLUNK CONFIDENTIAL - Use or disclosure of this material in whole or in part
@@ -77,14 +77,14 @@
             <div class="info">
                 <h4 class="wf-h4-style">Info</h4>
                 <table class="wf-table-vertical">
-                    {% if result.param.feed_id %}
+                    {% if result.param.iocid %}
                         <tr>
-                            <td>Feed ID</td>
+                            <td>Deleted IOC ID</td>
                             <td><a href="javascript:;"
-                                onclick="context_menu(this, [{'contains': ['cbthreathunter feed id'],
-                                'value': '{{ result.param.feed_id }}' }], 0, {{ container.id }}, null, false);">
+                                onclick="context_menu(this, [{'contains': ['cbthreathunter ioc id'],
+                                'value': '{{ result.param.iocid }}' }], 0, {{ container.id }}, null, false);">
                                  &nbsp;
-                                 {{ result.param.feed_id }}
+                                 {{ result.param.iocid }}
                                  &nbsp;
                                  <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                              </a></td>
@@ -94,54 +94,65 @@
             </div>
             
             <div class="data">
-                <h4 class="wf-h4-style">Data</h4>
+                <h4 class="wf-h4-style">Undeleted IOCs</h4>
                 <table class="phantom-table dataTable">
                     <thead>
-                        <th class="widget-th">Report ID</th>
-                        <th class="widget-th">Title</th>
-                        <th class="widget-th">Description</th>
-                        <th class="widget-th">Indicator Type</th>
-                        <th class="widget-th">Indicator Values</th>
-                        <th class="widget-th">Severity</th>
+                        <th class="widget-th">Undeleted IOC ID</th>
+                        <th class="widget-th">Name</th>
+                        <th class="widget-th">Category</th>
+                        <th class="widget-th">Match Type</th>
+                        <th class="widget-th">Field</th>
+                        <th class="widget-th">Link</th>
+                        <th class="widget-th">Provider URL</th>
+                        <th class="widget-th">Values</th>
                     </thead>
+                    <tbody>
                     {% for data in result.data %}
                         <tr>
                             <td class="widget-td">
-								{{ data.id }}
+                                <a href="javascript:;"
+                                onclick="context_menu(this, [{'contains': ['cbthreathunter ioc id'],
+                                'value': '{{ data.id }}' }], 0, {{ container.id }}, null, false);">
+                                    &nbsp;
+								    {{ data.id }}
+                                    &nbsp;
+                                    <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                 </a>
 							</td>
                             <td class="widget-td">
-								{{ data.title }}
+								{{ data.name }}
 							</td>
                             <td class="widget-td">
-								{{ data.description }}
+								{{ data.category }}
 							</td>
                             <td class="widget-td">
-                                {% for indicator in data.indicators %}
-                                <span class="glyphicon glyphicon-dot"></span>&nbsp;
-									{{ indicator.type }}
-								{% endfor %}
-							</td>
-							<td class="widget-td">
-								{% for indicator in data.indicators %}
-									{% for value in indicator.values %}
-										<span class="glyphicon glyphicon-dot"></span>&nbsp;
-										<a href="javascript:;"
-										   onclick="context_menu(this, [{'contains': ['domain','ip','email','url','hash','string','ipv6'],
-										   'value': '{{ value }}' }], 0, {{ container.id }}, null, false);">
-											&nbsp;
-											{{ value }}
-											&nbsp;
-											<span class="fa fa-caret-down" style="font-size: smaller;"></span>
-										</a>
-										{% if not forloop.last %}<br/> {% endif %}
-									{% endfor %}
-								{% endfor %}
-							</td>
-							<td class="widget-td">
-                                {{ data.severity }}
+								{{ data.match_type }}
                             </td>
+                            <td class="widget-td">
+                                {{ data.field }}
+                            </td>
+                            <td class="widget-td">
+                                {{ data.link }}
+                            </td>
+                            <td class="widget-td">
+								{{ data.provider_url }}
+							</td>
+							<td class="widget-td">
+                                {% for value in data.values %}
+                                    <span class="glyphicon glyphicon-dot"></span>&nbsp;
+                                    <a href="javascript:;"
+                                        onclick="context_menu(this, [{'contains': ['domain','ip','email','url','hash','string','ipv6'],
+                                        'value': '{{ value }}' }], 0, {{ container.id }}, null, false);">
+                                        &nbsp;
+                                        {{ value }}
+                                        &nbsp;
+                                        <span class="fa fa-caret-down" style="font-size: smaller;"></span>
+                                    </a>
+                                {% endfor %}
+							</td>
                         </tr>
                     {% endfor %}
+                    </tbody>
                 </table>
             </div>
         {% endif %}

@@ -27,6 +27,8 @@ from phantom.vault import Vault
 import magic
 import re
 import ipaddress
+import datetime
+from carbonblackthreathunter_consts import *
 from utilities import KennyLoggins, logging, aplutils
 
 
@@ -64,6 +66,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self.version = "not_yet_loaded"
         self.client = None
         self._feed_state = None
+        self._feed_access_type = None
         self.apl_utils = aplutils()
         self._action_functions = {'test_connectivity': self._handle_test_connectivity,
                                   'get_file': self._handle_get_file,
@@ -177,13 +180,11 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                     return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
             else:
                 self.save_progress("Delete IOC: No Report Found")
-                return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
+                return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No report found")
 
         except Exception as e:
-            if "'NoneType' object has no attribute 'get'" in e.message:
-                return action_result.set_status(phantom.APP_ERROR, "Found invalid org_key value in configuration parameters")
             self._log.error("Update Report IOC: {}".format(e))
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while deleteing IOC value from the report: {}".format(str(e)))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while deleteing IOC value from the report: {}".format(str(e)))
 
     def _handle_delete_report_ioc_id(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -225,16 +226,14 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                         "report={} param={}".format(json.dumps(report),
                                                     json.dumps(param)))
                     [action_result.add_data(x) for x in report.get("iocs_v2", [])]
-                    return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed on feed: {}".format(feed_id))
+                    return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC completed on feed: {}".format(feed_id))
             else:
                 self.save_progress("Delete IOC: No Report Found")
-                return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No Report Found")
+                return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No report found")
 
         except Exception as e:
-            if "'NoneType' object has no attribute 'get'" in e.message:
-                return action_result.set_status(phantom.APP_ERROR, "Found invalid org_key value in configuration parameters")
             self._log.error("Update Report IOC: {}".format(e))
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while deleting IOC from the report: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while deleting IOC from the report: {}".format(e))
 
     def _handle_update_report_ioc(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -289,7 +288,6 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             if report is None:
                 severities = {"high": 1, "medium": 2, "low": 3}
                 action = "add"
-
                 iocs = [create_ioc(ioc) for ioc in param]
                 report = {"id": report_hash,
                           # "timestamp": time.mktime(datetime.datetime.strptime("2019-03-14T13:24:52.991454Z",
@@ -347,18 +345,15 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                 "action={} report={} param={} field_map={}".format(json.dumps(action), json.dumps(report),
                                                                    json.dumps(param),
                                                                    json.dumps(field_map)))
-            r = self.client.update_feed_report(feed_id, report) if action == "update" else self.client.add_feed_report(
-                feed_id, report)
+            r = self.client.update_feed_report(feed_id, report) if action == "update" else self.client.add_feed_report(feed_id, report)
             self.save_progress("Set Report for IOCs: {} {}".format(feed_id, report))
             [action_result.add_data(x) for x in report.get("iocs_v2", [])]
             self._log.debug("action=update_feed r={}".format(r))
-            return action_result.set_status(phantom.APP_SUCCESS, "Update Feed Report Completed on feed ID: {}".format(feed_id))
+            return action_result.set_status(phantom.APP_SUCCESS, "Update Feed Report completed on feed ID: {}".format(feed_id))
         except Exception as e:
             exc_type, exc_obj, exc_tb = sys.exc_info()
-            if "'NoneType' object has no attribute 'get'" in e.message:
-                return action_result.set_status(phantom.APP_ERROR, "Found invalid org_key value in configuration parameters")
             self._log.error("exception_line={} Update Report IOC: {}".format(exc_tb.tb_lineno, e))
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while updating the report: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while updating the report: {}".format(e))
 
     def _process_iocs_v2(self, report):
         map_fields = {"netconn_ipv4": "ip",
@@ -386,7 +381,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             summary['total_feed_reports'] = len(action_result.get_data())
             return action_result.set_status(phantom.APP_SUCCESS)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feed report: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while getting feed report: {}".format(e))
 
     def _handle_delete_feed(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -401,7 +396,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             return action_result.set_status(phantom.APP_SUCCESS, "Feed Deleted")
         except Exception as e:
             self._log.error("error={}".format(e))
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while deleting feed: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while deleting feed: {}".format(e))
 
     def _handle_get_single_feed(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -414,7 +409,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             action_result.add_data(ret.get("feedinfo", {}))
             return action_result.set_status(phantom.APP_SUCCESS, "Feed Retrieved")
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feed: {}".format(str(unicode(e.message).encode("utf-8"))))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while getting feed: {}".format(str(unicode(e.message).encode("utf-8"))))
 
     def _handle_get_all_feeds(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
@@ -430,7 +425,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             summary['total_feeds'] = len(action_result.get_data())
             return action_result.set_status(phantom.APP_SUCCESS)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting feeds: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while getting feeds: {}".format(e))
 
     def _handle_test_connectivity(self, param):
 
@@ -444,6 +439,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
         self.save_progress("Checking for connectivity")
         has_connectivity = self.client.has_connectivity(action_result)
+
         if phantom.is_fail(has_connectivity):
             self.save_progress("Test Connectivity Failed")
             return action_result.get_status()
@@ -501,10 +497,9 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         try:
             cb_response = self.client.get_file(shash=shash)
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while getting file:", e)
-            # return action_result.set_status(phantom.APP_ERROR, "Error occured while getting file: {}".format(str(unicode(e.message).encode("utf-8"))))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while getting file:", e)
         if len(cb_response) < 1:
-            return action_result.set_status(phantom.APP_SUCCESS, "No Files Found")
+            return action_result.set_status(phantom.APP_SUCCESS, "No files found")
         self.save_progress("Found {} Files".format(len(cb_response)))
         guid = uuid.uuid4()
         if hasattr(Vault, 'get_vault_tmp_dir'):
@@ -520,7 +515,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                                             'Unable to create temporary folder {0}.'.format(temp_dir), e)
         [self._save_file_to_vault(action_result, x.get("response"), x.get("hash"), x.get("summary"), local_dir) for x
             in cb_response]
-        return action_result.set_status(phantom.APP_SUCCESS, "File is Retrieved for Hash: {}".format(param['file_hash_sha256']))
+        return action_result.set_status(phantom.APP_SUCCESS, "File is retrieved for hash: {}".format(param['file_hash_sha256']))
 
     def _handle_get_file_metadata(self, param):
         self.save_progress("In action handler for: {0}".format(self.get_action_identifier()))
@@ -542,7 +537,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             return action_result.set_status(phantom.APP_ERROR, "{}".format("Get File Summary error: {}".format(e)))
         self._log.debug("adding data to action_result")
         if "error_code" in cbr:
-            return RetVal(phantom.APP_ERROR, "{}: {}".format(cbr.get("error_code", "UNK"), cbr.get("message", "UNK")))
+            return action_result.set_status(phantom.APP_ERROR, "{}: {}".format(cbr.get("error_code", "UNK"), cbr.get("message", "UNK")))
         action_result.add_data(self._process_row(cbr, reverse_map))
         self._log.debug("updating summary")
         summary = action_result.update_summary({})
@@ -635,7 +630,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             if "failure" in response:
                 return action_result.set_status(phantom.APP_ERROR, response.get("failure", ""))
         except Exception as e:
-            return action_result.set_status(phantom.APP_ERROR, "Error occured while executing run query: {}".format(e))
+            return action_result.set_status(phantom.APP_ERROR, "Error occurred while executing run query: {}".format(e))
         self.save_progress("Got a Valid Result of length: {}".format(len(response.get("success", {}))))
         # Add the response into the data section
         cb_response = response.get("success", {})
@@ -661,40 +656,63 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                     local_object["process_hash_sha256"] = h
         return local_object
 
-    def _get_cb_feed(self):
+    def _get_cb_feed(self, touchpoint):
         self._log.debug("action=get_feed directory={}".format(self._directory))
-        touchpoint = os.path.join(self._directory, "phcarbonblackthreathunter_feed_state.json")
-        static_feed = "{}".format(uuid.uuid5(uuid.NAMESPACE_OID, "Phantom"))
+
         if os.path.isfile(touchpoint):
             self._log.debug("action=get_feed file_exists={}".format(touchpoint))
             with open(touchpoint, "r") as f:
-                self._feed_state = json.loads(f.readline())
-            return None
+                feed_state_data = str(f.readline())
+                if not feed_state_data:
+                else:
+                    self._feed_state = json.loads(feed_state_data)
+                    if self._feed_state and 'feed_id' not in self._feed_state:
+                        raise Exception('Unable to fetch the Feed ID')
+                    # If the feed_id present in the state file is already deleted, then, we have to re-generate the feed_id
+                    try:
+                        ret = self.client.get_feed(self._feed_state.get('feed_id'))
+                        self._log.debug("feed_id validated successfully. Return value is: {}".format(ret))
+                    except Exception as e:
+                        if "status_code=404" in str(e):
+                            self._update_feed_id_state(touchpoint)
+                            with open(touchpoint, "r") as f:
+                                self._feed_state = json.loads(f.readline())
+                            return None
+                        raise Exception(str(e))
+
         else:
-            feeds = self.client.get_all_feeds()
-            needed_category = "phantom_created"
-            if not any([(x.get("category", "") == needed_category) for x in feeds.get("results", [])]):
-                feed_information = self.client.create_feed(name="Phantom Created Threat Feed",
-                                                           summary="Phantom Created and controlled threat feed",
-                                                           access="private", category="phantom_created",
-                                                           provider_url="https://my.phantom.us",
-                                                           reports=[])
-                self._log.debug(
-                    "action=create_feed reason=none_present feed_information={}".format(json.dumps(feed_information)))
-                static_feed = feed_information.get("id")
-            else:
-                for x in feeds.get("results"):
-                    self._log.debug("checking_feed={} category={}".format(x.get("id"), x.get("category")))
-                    if x.get("category", "") == needed_category:
-                        static_feed = x.get("id")
-                        break
-            self._log.debug("action=no_path_to_touchpoint touchpoint={}".format(touchpoint))
-            with open(touchpoint, "w") as f:
-                f.write(json.dumps({"feed_id": static_feed}))
+            self._update_feed_id_state(touchpoint)
+
         self._log.debug("action=read_feed_state touchpoint={}".format(touchpoint))
         with open(touchpoint, "r") as f:
             self._feed_state = json.loads(f.readline())
         return None
+
+    def _update_feed_id_state(self, touchpoint):
+        static_feed = "{}".format(uuid.uuid5(uuid.NAMESPACE_OID, "Phantom"))
+        public_feeds = self.client.get_all_feeds("true")
+        private_feeds = self.client.get_all_feeds()
+        public_feeds["results"].extend(private_feeds["results"])
+        feeds = public_feeds
+        needed_category = "phantom_created"
+        if not any([(x.get("category", "") == needed_category) for x in feeds.get("results", [])]):
+            feed_information = self.client.create_feed(name="Phantom Created Threat Feed {}".format(datetime.datetime.strftime(datetime.datetime.now(), "%Y-%m-%dT%H:%M:%S")),
+                                                        summary="Phantom Created and controlled threat feed",
+                                                        access=self._feed_access_type, category="phantom_created",
+                                                        provider_url="https://my.phantom.us",
+                                                        reports=[])
+            self._log.debug(
+                "action=create_feed reason=none_present feed_information={}".format(json.dumps(feed_information)))
+            static_feed = feed_information.get("id")
+        else:
+            for x in feeds.get("results"):
+                self._log.debug("checking_feed={} category={}".format(x.get("id"), x.get("category")))
+                if x.get("category", "") == needed_category:
+                    static_feed = x.get("id")
+                    break
+        self._log.debug("action=no_path_to_touchpoint touchpoint={}".format(touchpoint))
+        with open(touchpoint, "w") as f:
+            f.write(json.dumps({"feed_id": static_feed}))
 
     def _update_feed_state(self, key, value):
         self._feed_state[key] = value
@@ -713,7 +731,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             ret_val = self._action_functions[action_id](param)
             return ret_val
         except Exception as e:
-            return RetVal(phantom.APP_ERROR, "Action ID not found: {}, {}".format(action_id, e))
+            return self.set_status(phantom.APP_ERROR, "Action ID not found: {}, {}".format(action_id, e))
 
     def initialize(self):
         # Load the state in initialize, use it to store data
@@ -745,7 +763,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         """
         urls = ['base_url', 'api_url']
         for url in urls:
-            if config[url]:
+            if config.get(url):
                 if config[url][-1] == '/':
                     config[url] = config[url][:-1]
         config_params = ['base_url', 'api_id', 'org_key', 'lr_api_id', 'api_url']
@@ -753,6 +771,8 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         for config_param in config_params:
             if config.get(config_param) is not None:
                 config[config_param] = config[config_param].encode('utf-8')
+
+        self._feed_access_type = config["feed_type"]
 
         self.client = cb_psc_client(base_url=config['base_url'],
                                     api_id=config["api_id"],
@@ -769,15 +789,16 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self.save_progress("Validating Asset Settings")
         if not any(configuration_errors):
             try:
-                self._get_cb_feed()
+                touchpoint = os.path.join(self._directory, "phcarbonblackthreathunter_feed_state.json")
+                self._get_cb_feed(touchpoint)
             # If there are no errors, the list will be "all false", which when negated is "true", meaning no errors.
-                return RetVal(phantom.APP_SUCCESS)
+                return phantom.APP_SUCCESS
             except Exception as e:
-                message = 'Error: {0}'.format(str(e))
-                return RetVal(phantom.APP_ERROR, message)
+                message = CBTHREATHUNTER_GET_CB_FEED_ERROR.format(file_path=touchpoint, error_msg=str(e))
+                return self.set_status(phantom.APP_ERROR, message)
 
         self.save_progress("{}".format(", ".join([x for x in configuration_errors if x])))
-        return RetVal(phantom.APP_ERROR, "Failed Configuration Check")
+        return self.set_status(phantom.APP_ERROR, "Failed Configuration Check")
 
     def finalize(self):
 

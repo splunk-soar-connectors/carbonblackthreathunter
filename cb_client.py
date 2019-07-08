@@ -17,8 +17,8 @@ class cb_psc_client:
     def __init__(self, **kwargs):
         self.base_url = kwargs["base_url"]
         self.api_url = kwargs["api_url"]
-        self.version = kwargs["version"]
         self.org_key = kwargs["org_key"]
+        self.version = kwargs["version"]
         self.authorization_header = "{1}/{0}".format(kwargs["api_id"], kwargs["api_secret_key"])
         self.live_header = "{}/{}".format(kwargs.get("lr_api_secret_key", ""), kwargs.get("lr_api_id", ""))
         self.user_agent_header = "Phantom App/{}".format(self.version)
@@ -79,8 +79,6 @@ class cb_psc_client:
                 **kwargs
             )
             self._last_content = "{}: {}: {}".format(url, r.status_code, r.text)
-            if r.status_code == 403:
-                raise Exception("Found invalid org_key value in configuration parameters")
             return r
         except Exception as e:
             raise e
@@ -95,14 +93,10 @@ class cb_psc_client:
                 headers=self._current_header,
                 **kwargs
             )
-            if r.status_code == 403:
-                raise Exception("Found invalid org_key value in configuration parameters")
             self._last_content = "{}: {}: {}".format(url, r.status_code, r.text.encode('utf-8'))
             return r
         except Exception as e:
-            # raise Exception("Error: {} {}".format(unicode(str(e.message)).encode("utf-8"), self._last_content))
             raise Exception("{}".format(unicode(str(e.message).encode('utf-8'))))
-            # raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def delete(self, endpoint):
         try:
@@ -140,17 +134,11 @@ class cb_psc_client:
                 json=True,
                 **kwargs
             )
-            if r.status_code == 403:
-                raise Exception("Found invalid org_key value in configuration parameters")
             self._log.debug(
                 "status=end url={} code={} content={} headers={}".format(url, r.status_code, r.content, r.headers))
             return r
         except Exception as e:
             raise Exception(e)
-            # self._log.debug("action=exception method=post url={} e=\"{}\"".format(url, e))
-            # raise Exception("Error occured while getting the response from URL, may be it is an invalid URL")
-            # self._log.error("Post Exception: {} {}".format(r.status_code, r.text))
-            # raise Exception(unicode(str(e.message)).encode("utf-8"))
 
     def get_file_summary(self, shash):
         endpoint = "ubs/{}/orgs/{}/sha256/{}/metadata".format(self.api_version, self.org_key, shash)
@@ -203,6 +191,7 @@ class cb_psc_client:
                                   "sort": "device_timestamp desc"
                                   }}
         endpoint = "pscr/query/{}/start".format(self.api_version)
+
         r = self.post(endpoint, data=dumps(data))
         resp = r.json()
         if "error_code" in resp:
@@ -239,6 +228,7 @@ class cb_psc_client:
         if failed:
             raise Exception("{} - {}: DEBUG: url:{}, d:{}".format(r.status_code, r.status_code, endpoint,
                                                                   dumps(r.json())))
+
         return {"success": r.json()}
 
     def search_query(self, query, limit=5000):
@@ -269,12 +259,12 @@ class cb_psc_client:
         endpoint = self._build_live_endpoint("/{}".format(device_id))
         self._log.debug("status=start endpoint={}".format(endpoint))
         return self._live_response_process(self.post(endpoint, data=dumps({"sensor_id": device_id})),
-                                           msg="Live Response Session Failed to Open")
+                                           msg="Live Response session failed to open")
 
     def _check_live_session(self, session_id):
         endpoint = "integrationServices/v3/cblr/session/{}".format(session_id)
         self._log.debug("status=start endpoint={}".format(endpoint))
-        return self._live_response_process(self.get(endpoint), msg="Failure on Check Live Response Session")
+        return self._live_response_process(self.get(endpoint), msg="Failure on check Live Response session")
 
     def _issue_live_command(self, session_id, command, **kwargs):
         endpoint = "integrationServices/v3/cblr/session/{}/command".format(session_id)
@@ -290,23 +280,23 @@ class cb_psc_client:
             data["object"] = ""
         # self._log.debug("status=start to_call=_live_response_process_command endpoint={} data={} headers={}".format(endpoint, dumps(data), self._current_header))
         return self._live_response_process(self.post(endpoint, data=dumps(data)),
-                                           msg="Failure on Live Response Command Issue")
+                                           msg="Failure on Live Response command issue")
 
     def _check_live_session_command(self, session_id):
         endpoint = "integrationServices/v3/cblr/session/{}/command/0".format(session_id)
         self._log.debug("status=start endpoint={}".format(endpoint))
-        return self._live_response_process(self.get(endpoint), msg="Failure on Check Live Response Command")
+        return self._live_response_process(self.get(endpoint), msg="Failure on check Live Response command")
 
     def _get_file_content(self, session_id, file_id):
         endpoint = "integrationServices/v3/cblr/session/{}/file/{}/content".format(session_id, file_id)
         self._log.debug("status=start endpoint={}".format(endpoint))
-        return self._live_response_process(self.get(endpoint), msg="Failure on Get File Contents")
+        return self._live_response_process(self.get(endpoint), msg="Failure on get file contents")
 
     def _close_session(self, session_id):
         endpoint = "integrationServices/v3/cblr/session"
         self._log.debug("status=start endpoint={}".format(endpoint))
         data = {"session_id": session_id, "status": "CLOSE"}
-        return self._live_response_process(self.put(endpoint, data=dumps(data)), msg="Failure on Close Session")
+        return self._live_response_process(self.put(endpoint, data=dumps(data)), msg="Failure on close session")
 
     def _process_json(self, j):
         return " ".join(["{}=\"{}\"".format(x, j.get(x, "")) for x in j])
@@ -331,7 +321,7 @@ class cb_psc_client:
         session_id = open_session.get("id")
         if session_id is None:
             self._log.error("Failed to get sessionID")
-            raise Exception("Failed to Get SessionID")
+            raise Exception("Failed to get sessionID")
         # Ready Player 1
         while counter < max_wait_loops:
             self._log.debug("action=start to_call=_check_live_session max_wait_loops={} counter={} wait_time={}".format(
@@ -354,7 +344,7 @@ class cb_psc_client:
                 self._close_session(session_id)
             except:
                 pass
-            raise Exception("Max Loops of {} exceeded for Session Check {}".format(max_wait_loops, session_id))
+            raise Exception("Max loops of {} exceeded for session check {}".format(max_wait_loops, session_id))
         counter = 0
         self._log.debug("action=start to_call=_issue_live_command kwargs={}".format(kwargs))
         ic = self._issue_live_command(session_id, command, **kwargs)
@@ -375,7 +365,7 @@ class cb_psc_client:
                 break
             elif get_check.get("status") == "error":
                 self._log.debug("action=break")
-                raise Exception("Found status = error while getting the status of the issue command {}".format(command))
+                raise Exception("Status Found is: 'error' while getting the status of the issue command {}".format(command))
             else:
                 self._log.debug("action=continue")
                 counter = counter + 1
@@ -386,7 +376,7 @@ class cb_psc_client:
                 self._close_session(session_id)
             except:
                 pass
-            raise Exception("Max Loops of {} exceed for Command Check {}".format(max_wait_loops, session_id))
+            raise Exception("Max Loops of {} exceed for command check {}".format(max_wait_loops, session_id))
         if command in map_responses.keys():
             # Get the Response, and map to a generic return object 'returned_data'
             ret_val["returned_data"] = ret_val.get(map_responses.get(command))
@@ -409,9 +399,7 @@ class cb_psc_client:
                 return response.json()
             if response.status_code == 204:
                 return {}
-            if response.status_code == 403:
-                raise Exception("Found invalid org_key value in configuration parameters")
-        raise Exception("Error on Call: status_code={} text={}".format(response.status_code, response.text.encode('utf-8')))
+        raise Exception("Error on call: status_code={} text={}".format(response.status_code, response.text.encode('utf-8')))
 
     def create_feed(self, name="", owner="", summary="", access="private",
                     reports=[], **kwargs):
@@ -423,6 +411,7 @@ class cb_psc_client:
                              "access": access,
                              "id": kwargs.get("id", None)},
                 "reports": reports}
+
         if access == "public":
             return self._create_public_feed(data)
         else:
@@ -507,7 +496,7 @@ class cb_psc_client:
                 report = reports[0]
         # Run update if a report is found
         if report is None:
-            raise Exception("No Report Found")
+            raise Exception("No report found")
         if "iocs_v2" not in report:
             report["iocs_v2"] = []
         report["iocs_v2"].append(indicator)

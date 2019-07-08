@@ -53,5 +53,11 @@ def display_view(provides, all_app_runs, context):
 
     if provides == "get feed reports":
        return_page = "carbonblackthreathunter_get_feed_reports.html"
+    if provides == "delete report ioc":
+       return_page = "carbonblackthreathunter_delete_report_ioc.html"
+    if provides == "create report ioc":
+       return_page = "carbonblackthreathunter_create_report_ioc.html"
+    if provides == "delete ioc value":
+       return_page = "carbonblackthreathunter_delete_ioc_value.html"
 
     return return_page

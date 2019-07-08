@@ -64,7 +64,7 @@ class aplutils:
         self._log.info("validating_config item={} item_config={} key={}".format(item, item_config, key))
         if "validation" not in item_config:
             return False
-        if not item_config.get("required", False) and item is None:
+        if not item_config.get("required", False) and not item:
             return False
         si = ["{}: {}".format(key, x) for x in
               [self._check_single_validation(x, item) for x in item_config.get("validation")] if x]

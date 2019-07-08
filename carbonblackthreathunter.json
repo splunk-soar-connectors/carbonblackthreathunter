@@ -91,6 +91,17 @@
             "required": true,
             "default": false,
             "order": 7
+        },
+        "feed_type": {
+            "description": "Feed Access Type",
+            "data_type": "string",
+            "required": true,
+            "order": 8,
+            "value_list":[
+                "private",
+                "public"
+            ],
+            "default": "private"
         }
     },
     "actions": [
@@ -129,8 +140,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
@@ -317,7 +326,7 @@
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
                     "column_name": "Name",
-                    "column_order": 3,
+                    "column_order": 2,
                     "example_values": [
                         "svchost.exe"
                     ],
@@ -329,7 +338,7 @@
                     "data_path": "action_result.data.*.vault_id",
                     "data_type": "string",
                     "column_name": "Vault ID",
-                    "column_order": 2,
+                    "column_order": 1,
                     "example_values": [
                         "619652b42afe5fb0e3719d7aeda7a5494ab193e8"
                     ],
@@ -793,8 +802,6 @@
                     "contains": [
                         "domain"
                     ],
-                    "column_name": "Domain",
-                    "column_order": 4,
                     "example_values": [
                         "www.splunk.com"
                     ]
@@ -818,8 +825,6 @@
                     "contains": [
                         "ip"
                     ],
-                    "column_name": "IP",
-                    "column_order": 3,
                     "example_values": [
                         "172.217.6.67"
                     ]
@@ -827,8 +832,6 @@
                 {
                     "data_path": "action_result.parameter.max_results",
                     "data_type": "string",
-                    "column_name": "Max Results",
-                    "column_order": 10,
                     "example_values": [
                         10
                     ]
@@ -836,8 +839,6 @@
                 {
                     "data_path": "action_result.parameter.process_name",
                     "data_type": "string",
-                    "column_name": "Process Name",
-                    "column_order": 0,
                     "example_values": [
                         "chrome.exe"
                     ],
@@ -848,8 +849,6 @@
                 {
                     "data_path": "action_result.parameter.search_operator",
                     "data_type": "string",
-                    "column_name": "Search Operator",
-                    "column_order": 9,
                     "example_values": [
                         "AND"
                     ]
@@ -882,7 +881,7 @@
                         "device id"
                     ],
                     "column_name": "Device ID",
-                    "column_order": 5,
+                    "column_order": 3,
                     "example_values": [
                         10086634
                     ]
@@ -894,7 +893,7 @@
                         "host name"
                     ],
                     "column_name": "Device Name",
-                    "column_order": 4,
+                    "column_order": 2,
                     "example_values": [
                         "cbthreathunter"
                     ]
@@ -973,7 +972,7 @@
                     "data_path": "action_result.data.*.process_guid",
                     "data_type": "string",
                     "column_name": "Process GUID",
-                    "column_order": 7,
+                    "column_order": 5,
                     "example_values": [
                         "N2MFGG47-0099e8ea-00000cec-00000000-1d527b19a514873"
                     ]
@@ -995,7 +994,7 @@
                         "md5"
                     ],
                     "column_name": "Process Hash MD5",
-                    "column_order": 1,
+                    "column_order": 0,
                     "example_values": [
                         "7cf5093b6dcfde349399b507a52fb073"
                     ]
@@ -1007,7 +1006,7 @@
                         "sha256"
                     ],
                     "column_name": "Process Hash Sha256",
-                    "column_order": 2,
+                    "column_order": 1,
                     "example_values": [
                         "be3d2ba94e34bac4ec82540fb9c849e7e1b320359f98a1c3afac5a9ebda2e05a"
                     ]
@@ -1016,7 +1015,7 @@
                     "data_path": "action_result.data.*.process_name",
                     "data_type": "string",
                     "column_name": "Process Cmdline",
-                    "column_order": 8,
+                    "column_order": 6,
                     "example_values": [
                         "c:\\program files (x86)\\google\\chrome\\application\\chrome.exe"
                     ],
@@ -1047,7 +1046,7 @@
                         "user name"
                     ],
                     "column_name": "Process Username",
-                    "column_order": 6,
+                    "column_order": 4,
                     "example_values": [
                         "CBTHREATHUNTER\\testuser"
                     ]
@@ -1143,8 +1142,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
@@ -1153,8 +1150,6 @@
                 {
                     "data_path": "action_result.parameter.command",
                     "data_type": "string",
-                    "column_name": "Command",
-                    "column_order": 2,
                     "example_values": [
                         "process list"
                     ]
@@ -1165,22 +1160,18 @@
                     "contains": [
                         "device id"
                     ],
-                    "column_name": "Device ID",
-                    "column_order": 0,
                     "example_values": [
                         "1155127"
                     ]
                 },
                 {
                     "data_path": "action_result.parameter.object",
-                    "data_type": "string",
-                    "column_name": "Object",
-                    "column_order": 3
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.command_line",
                     "data_type": "string",
-                    "column_order": 8,
+                    "column_order": 4,
                     "column_name": "Command Line",
                     "example_values": [
                         ""
@@ -1200,7 +1191,7 @@
                 {
                     "data_path": "action_result.data.*.parent",
                     "data_type": "numeric",
-                    "column_order": 7,
+                    "column_order":3,
                     "column_name": "Parent",
                     "example_values": [
                         0
@@ -1220,7 +1211,7 @@
                         "path",
                         "file name"
                     ],
-                    "column_order": 5,
+                    "column_order": 1,
                     "column_name": "Path",
                     "example_values": [
                         "System"
@@ -1229,7 +1220,7 @@
                 {
                     "data_path": "action_result.data.*.pid",
                     "data_type": "numeric",
-                    "column_order": 6,
+                    "column_order": 2,
                     "column_name": "PID",
                     "example_values": [
                         4
@@ -1244,7 +1235,7 @@
                     "contains": [
                         "sid"
                     ],
-                    "column_order": 9,
+                    "column_order": 5,
                     "column_name": "SID",
                     "example_values": [
                         ""
@@ -1257,7 +1248,7 @@
                         "user name"
                     ],
                     "column_name": "Username",
-                    "column_order": 4,
+                    "column_order": 0,
                     "example_values": [
                         "testuser"
                     ]
@@ -1326,8 +1317,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
@@ -1349,7 +1338,7 @@
                     "data_path": "action_result.data.*.access",
                     "data_type": "string",
                     "column_name": "Access",
-                    "column_order": 5,
+                    "column_order": 4,
                     "example_values": [
                         "private"
                     ]
@@ -1358,7 +1347,7 @@
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
                     "column_name": "Category",
-                    "column_order": 3,
+                    "column_order": 2,
                     "example_values": [
                         "test_created"
                     ]
@@ -1377,7 +1366,7 @@
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
                     "column_name": "Name",
-                    "column_order": 2,
+                    "column_order": 1,
                     "example_values": [
                         "TestURL Created Threat Feed"
                     ]
@@ -1386,7 +1375,7 @@
                     "data_path": "action_result.data.*.owner",
                     "data_type": "string",
                     "column_name": "Owner",
-                    "column_order": 6,
+                    "column_order": 5,
                     "example_values": [
                         "N2MFGG47"
                     ]
@@ -1398,7 +1387,7 @@
                         "url"
                     ],
                     "column_name": "Provider URL",
-                    "column_order": 4,
+                    "column_order": 3,
                     "example_values": [
                         "https://my.test.us"
                     ]
@@ -1497,8 +1486,6 @@
                     "contains": [
                         "cbthreathunter feed id"
                     ],
-                    "column_name": "Feed ID",
-                    "column_order": 2,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
                     ]
@@ -1781,8 +1768,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
@@ -1794,8 +1779,6 @@
                     "contains": [
                         "boolean"
                     ],
-                    "column_name": "Include Public",
-                    "column_order": 0,
                     "example_values": [
                         false,
                         true
@@ -1812,7 +1795,7 @@
                     "data_path": "action_result.data.*.category",
                     "data_type": "string",
                     "column_name": "Category",
-                    "column_order": 4,
+                    "column_order": 2,
                     "example_values": [
                         "test_created"
                     ]
@@ -1824,7 +1807,7 @@
                         "cbthreathunter feed id"
                     ],
                     "column_name": "Feed ID",
-                    "column_order": 3,
+                    "column_order": 0,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
                     ]
@@ -1833,7 +1816,7 @@
                     "data_path": "action_result.data.*.name",
                     "data_type": "string",
                     "column_name": "Name",
-                    "column_order": 2,
+                    "column_order": 1,
                     "example_values": [
                         "Test Created Threat Feed"
                     ]
@@ -1852,7 +1835,7 @@
                         "url"
                     ],
                     "column_name": "Provider URL",
-                    "column_order": 5,
+                    "column_order": 3,
                     "example_values": [
                         "https://my.test.us"
                     ]
@@ -1960,8 +1943,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 4,
                     "example_values": [
                         "success",
                         "failed"
@@ -1973,8 +1954,6 @@
                     "contains": [
                         "domain"
                     ],
-                    "column_name": "Domain",
-                    "column_order": 1,
                     "example_values": [
                         "s.symcd.com"
                     ]
@@ -1986,8 +1965,6 @@
                         "hash",
                         "sha256"
                     ],
-                    "column_name": "Hash",
-                    "column_order": 0,
                     "example_values": [
                         "93b2ed4004ed5f7f3039dd7ecbd22c7e4e24b6373b4d9ef8d6e45a179b13a5e8"
                     ]
@@ -1998,8 +1975,6 @@
                     "contains": [
                         "ip"
                     ],
-                    "column_name": "IPv4",
-                    "column_order": 2,
                     "example_values": [
                         "10.1.18.251"
                     ]
@@ -2010,8 +1985,6 @@
                     "contains": [
                         "ipv6"
                     ],
-                    "column_name": "IPv6",
-                    "column_order": 3,
                     "example_values": [
                         "FF02:0000:0000:0000:0000:0000:0001:0003"
                     ]
@@ -2019,8 +1992,6 @@
                 {
                     "data_path": "action_result.data.*.field",
                     "data_type": "string",
-                    "column_name": "Field",
-                    "column_order": 7,
                     "example_values": [
                         "netconn_ipv4"
                     ]
@@ -2031,8 +2002,6 @@
                     "contains": [
                         "cbthreathunter ioc id"
                     ],
-                    "column_name": "IOC ID",
-                    "column_order": 6,
                     "example_values": [
                         "fb88e47d-6956-437b-b75c-a435b928c30d"
                     ]
@@ -2044,8 +2013,6 @@
                 {
                     "data_path": "action_result.data.*.match_type",
                     "data_type": "string",
-                    "column_name": "Match Type",
-                    "column_order": 5,
                     "example_values": [
                         "equality"
                     ]
@@ -2053,8 +2020,6 @@
                 {
                     "data_path": "action_result.data.*.values",
                     "data_type": "string",
-                    "column_name": "Values",
-                    "column_order": 8,
                     "example_values": [
                         "s.symcd.com"
                     ]
@@ -2086,7 +2051,8 @@
                 }
             ],
             "render": {
-                "type": "table"
+                "type": "custom",
+                "view": "carbonblackthreathunter_view.display_view"
             },
             "versions": "EQ(*)"
         },
@@ -2144,8 +2110,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 4,
                     "example_values": [
                         "success",
                         "failed"
@@ -2157,8 +2121,6 @@
                     "contains": [
                         "domain"
                     ],
-                    "column_name": "Domain",
-                    "column_order": 1,
                     "example_values": [
                         "s.symcd.com"
                     ]
@@ -2170,8 +2132,6 @@
                         "hash",
                         "sha256"
                     ],
-                    "column_name": "Hash",
-                    "column_order": 0,
                     "example_values": [
                         "93b2ed4004ed5f7f3039dd7ecbd22c7e4e24b6373b4d9ef8d6e45a179b13a5e8"
                     ]
@@ -2182,8 +2142,6 @@
                     "contains": [
                         "ip"
                     ],
-                    "column_name": "IPv4",
-                    "column_order": 2,
                     "example_values": [
                         "10.1.18.251"
                     ]
@@ -2194,8 +2152,6 @@
                     "contains": [
                         "ipv6"
                     ],
-                    "column_name": "IPv6",
-                    "column_order": 3,
                     "example_values": [
                         "FF02:0000:0000:0000:0000:0000:0001:0003"
                     ]
@@ -2213,8 +2169,6 @@
                     "contains": [
                         "cbthreathunter ioc id"
                     ],
-                    "column_name": "IOC ID",
-                    "column_order": 6,
                     "example_values": [
                         "d76d08bb-4f42-49d8-a829-c4de2b70869c"
                     ]
@@ -2226,8 +2180,6 @@
                 {
                     "data_path": "action_result.data.*.match_type",
                     "data_type": "string",
-                    "column_name": "Match Type",
-                    "column_order": 5,
                     "example_values": [
                         "equality"
                     ]
@@ -2235,8 +2187,6 @@
                 {
                     "data_path": "action_result.data.*.values",
                     "data_type": "string",
-                    "column_name": "Values",
-                    "column_order": 7,
                     "example_values": [
                         "204.107.141.240"
                     ],
@@ -2271,7 +2221,8 @@
                 }
             ],
             "render": {
-                "type": "table"
+                "type": "custom",
+                "view": "carbonblackthreathunter_view.display_view"
             },
             "versions": "EQ(*)"
         },
@@ -2315,9 +2266,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.category",
-                    "data_type": "string",
-                    "column_name": "Category",
-                    "column_order": 3
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.field",
@@ -2351,18 +2300,14 @@
                 },
                 {
                     "data_path": "action_result.data.*.name",
-                    "data_type": "string",
-                    "column_name": "Name",
-                    "column_order": 1
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.provider_url",
                     "data_type": "string",
                     "contains": [
                         "url"
-                    ],
-                    "column_name": "Provider URL",
-                    "column_order": 2
+                    ]
                 },
                 {
                     "data_path": "action_result.data.*.values",
@@ -2402,7 +2347,8 @@
                 }
             ],
             "render": {
-                "type": "table"
+                "type": "custom",
+                "view": "carbonblackthreathunter_view.display_view"
             },
             "versions": "EQ(*)"
         }
