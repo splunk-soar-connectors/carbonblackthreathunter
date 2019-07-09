@@ -103,15 +103,18 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
     def _handle_delete_report_ioc(self, param):
         action_result = self.add_action_result(ActionResult(dict(param)))
+        summary = action_result.update_summary({})
         exists, container_info, response_code = self.get_container_info()
         container_type = container_info.get("container_type", "default")
 
         ipv4 = param.get('ipv4_ioc')
         ipv6 = param.get('ipv6_ioc')
         domain = param.get('domain_ioc')
-        hash = param.get('hash_ioc')
+        param_hash = param.get('hash_ioc')
 
-        if not (ipv4 or ipv6 or domain or hash):
+        params_list = [ipv4, ipv6, domain, param_hash]
+
+        if not (ipv4 or ipv6 or domain or param_hash):
             return action_result.set_status(phantom.APP_ERROR, "Atleast one parameter needs to be provided")
         if param.get('ipv4_ioc'):
             ret_val = self._is_ip(ipv4, action_result)
@@ -161,14 +164,38 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                             self._log.debug("action=value_in_ioc_values values={} param_key={}".format(ioc_values,
                                                                                                        param_key))
                             # if the parameter is not in the ioc, append it to the list
-                            while param_value in ioc_values:
-                                ioc_values.remove(param_value)
-                            ioc["values"] = ioc_values
+                            ioc["values"] = filter(lambda i: i != param_value, ioc_values)
                     return ioc
 
                 if iocsv2 is None:
-                    raise Exception("There is no ioc value in feed report to delete")
+                    raise Exception(CBTHREATHUNTER_DELETE_IOC_VALUES_EMPTY.format(report_id=report.get('id'), feed_id=feed_id))
                 else:
+                    prior_ioc_length_list = []
+                    post_ioc_length_list = []
+                    ioc_type_list = []
+                    for ioc in iocsv2:
+                        ioc_type_list.append(ioc.get("field"))
+                        prior_ioc_length_list.append(len(ioc.get("values", [])))
+                        updated_ioc = process_delete_ioc(self, ioc)
+                        post_ioc_length_list.append(len(updated_ioc.get("values", [])))
+
+                    deleted_iocs_list = []
+                    undeleted_iocs_list = []
+                    unavailable_iocs_field_values = []
+                    for index, value in enumerate(ioc_type_list):
+                        if param.get(reverse_field_map.get(value)) and prior_ioc_length_list[index] == post_ioc_length_list[index]:
+                            undeleted_iocs_list.append(param.get(reverse_field_map.get(value)))
+                        elif param.get(reverse_field_map.get(value)) and prior_ioc_length_list[index] > post_ioc_length_list[index]:
+                            deleted_iocs_list.append(param.get(reverse_field_map.get(value)))
+
+                    for param_item in params_list:
+                        if param_item and param_item not in deleted_iocs_list and param_item not in undeleted_iocs_list:
+                            unavailable_iocs_field_values.append(param_item)
+
+                    summary['deleted_ioc_values'] = deleted_iocs_list
+                    summary['undeleted_ioc_values'] = undeleted_iocs_list
+                    summary['unavailable_iocs_field_values'] = unavailable_iocs_field_values
+
                     report["iocs_v2"] = [process_delete_ioc(self, ioc) for ioc in iocsv2]
                     report["timestamp"] = time.time()
                     self.client.update_feed_report(feed_id, report)
@@ -177,7 +204,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                                                     json.dumps(param)))
                     self.save_progress("Delete for IOCs: {} {}".format(feed_id, report))
                     [action_result.add_data(x) for x in report.get("iocs_v2", [])]
-                    return action_result.set_status(phantom.APP_SUCCESS, "Delete Report IOC Completed")
+                    return action_result.set_status(phantom.APP_SUCCESS)
             else:
                 self.save_progress("Delete IOC: No Report Found")
                 return action_result.set_status(phantom.APP_SUCCESS, "Delete IOC: No report found")
@@ -218,6 +245,10 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                     raise Exception("There is no iocsv2 value in feed report to delete")
                 else:
                     new_iocs = [process_delete_ioc(self, ioc) for ioc in iocsv2]
+                    updated_iocs = [ioc for ioc in new_iocs if ioc is not None]
+                    if len(updated_iocs) == len(iocsv2):
+                        return action_result.set_status(phantom.APP_ERROR, CBTHREATHUNTER_DELETE_IOC_ID_INVALID.format(ioc_id=param.get("iocid", ""),
+                                        report_id=report.get("id"), feed_id=feed_id))
                     report["iocs_v2"] = [ioc for ioc in new_iocs if ioc is not None]
                     report["timestamp"] = time.time()
                     self.client.update_feed_report(feed_id, report)
@@ -664,6 +695,10 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             with open(touchpoint, "r") as f:
                 feed_state_data = str(f.readline())
                 if not feed_state_data:
+                    self._log.debug("action=get_feed file_exists={}".format(touchpoint))
+                    with open(touchpoint, "r") as f:
+                        self._feed_state = json.loads(f.readline())
+                    return None
                 else:
                     self._feed_state = json.loads(feed_state_data)
                     if self._feed_state and 'feed_id' not in self._feed_state:

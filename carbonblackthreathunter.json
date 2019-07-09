@@ -97,7 +97,7 @@
             "data_type": "string",
             "required": true,
             "order": 8,
-            "value_list":[
+            "value_list": [
                 "private",
                 "public"
             ],
@@ -1066,17 +1066,17 @@
                     ]
                 },
                 {
-                    "data_path": "action_result.message",
-                    "data_type": "string",
-                    "example_values": [
-                        "Total objects: 10"
-                    ]
-                },
-                {
                     "data_path": "action_result.summary.total_objects",
                     "data_type": "numeric",
                     "example_values": [
                         10
+                    ]
+                },
+                {
+                    "data_path": "action_result.message",
+                    "data_type": "string",
+                    "example_values": [
+                        "Total objects: 10"
                     ]
                 },
                 {
@@ -1191,7 +1191,7 @@
                 {
                     "data_path": "action_result.data.*.parent",
                     "data_type": "numeric",
-                    "column_order":3,
+                    "column_order": 3,
                     "column_name": "Parent",
                     "example_values": [
                         0
@@ -1548,8 +1548,6 @@
                 {
                     "data_path": "action_result.status",
                     "data_type": "string",
-                    "column_name": "Status",
-                    "column_order": 1,
                     "example_values": [
                         "success",
                         "failed"
@@ -1561,8 +1559,6 @@
                     "contains": [
                         "cbthreathunter feed id"
                     ],
-                    "column_name": "Feed ID",
-                    "column_order": 0,
                     "example_values": [
                         "XKDbmmvQRuuvnc99G99QFQ"
                     ]
@@ -1570,8 +1566,6 @@
                 {
                     "data_path": "action_result.data.*.description",
                     "data_type": "string",
-                    "column_name": "Description",
-                    "column_order": 4,
                     "example_values": [
                         ""
                     ]
@@ -1583,8 +1577,6 @@
                         "cbthreathunter report id",
                         "md5"
                     ],
-                    "column_name": "Report ID",
-                    "column_order": 2,
                     "example_values": [
                         "3e76f6d37db9776c303c5946f58a1efe"
                     ]
@@ -1592,8 +1584,6 @@
                 {
                     "data_path": "action_result.data.*.indicators.*.type",
                     "data_type": "string",
-                    "column_name": "Indicator Type",
-                    "column_order": 5,
                     "example_values": [
                         "netconn_ipv6"
                     ]
@@ -1609,8 +1599,6 @@
                         "hash",
                         "string"
                     ],
-                    "column_name": "Indicator Values",
-                    "column_order": 6,
                     "example_values": [
                         "10.1.18.251"
                     ]
@@ -1631,6 +1619,9 @@
                     "data_type": "string",
                     "example_values": [
                         "6050b521-8759-46e1-9396-fa42ea89992b"
+                    ],
+                    "contains": [
+                        "cbthreathunter ioc id"
                     ]
                 },
                 {
@@ -1664,8 +1655,6 @@
                     "contains": [
                         "severity"
                     ],
-                    "column_name": "Severity",
-                    "column_order": 7,
                     "example_values": [
                         2
                     ]
@@ -2122,7 +2111,8 @@
                         "domain"
                     ],
                     "example_values": [
-                        "s.symcd.com"
+                        "s.symcd.com",
+                        "testpro.com"
                     ]
                 },
                 {
@@ -2133,7 +2123,8 @@
                         "sha256"
                     ],
                     "example_values": [
-                        "93b2ed4004ed5f7f3039dd7ecbd22c7e4e24b6373b4d9ef8d6e45a179b13a5e8"
+                        "93b2ed4004ed5f7f3039dd7ecbd22c7e4e24b6373b4d9ef8d6e45a179b13a5e8",
+                        "da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b1"
                     ]
                 },
                 {
@@ -2143,7 +2134,8 @@
                         "ip"
                     ],
                     "example_values": [
-                        "10.1.18.251"
+                        "10.1.18.251",
+                        "10.11.12.13"
                     ]
                 },
                 {
@@ -2160,7 +2152,8 @@
                     "data_path": "action_result.data.*.field",
                     "data_type": "string",
                     "example_values": [
-                        "netconn_domain"
+                        "netconn_domain",
+                        "netconn_ipv4"
                     ]
                 },
                 {
@@ -2170,12 +2163,14 @@
                         "cbthreathunter ioc id"
                     ],
                     "example_values": [
-                        "d76d08bb-4f42-49d8-a829-c4de2b70869c"
+                        "d76d08bb-4f42-49d8-a829-c4de2b70869c",
+                        "ab89a20c-2b07-4bb5-a03d-67480c36dc8f"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.link",
-                    "data_type": "string"
+                    "data_type": "string",
+                    "example_values": []
                 },
                 {
                     "data_path": "action_result.data.*.match_type",
@@ -2188,21 +2183,47 @@
                     "data_path": "action_result.data.*.values",
                     "data_type": "string",
                     "example_values": [
-                        "204.107.141.240"
+                        "204.107.141.240",
+                        "da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b0"
                     ],
                     "contains": [
-                        "ip"
+                        "ip",
+                        "sha256"
                     ]
                 },
                 {
-                    "data_path": "action_result.summary",
-                    "data_type": "string"
+                    "data_path": "action_result.summary.deleted_ioc_values",
+                    "data_type": "string",
+                    "example_values": [
+                        "test.com"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.undeleted_ioc_values",
+                    "data_type": "string",
+                    "example_values": [
+                        "da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b1"
+                    ],
+                    "contains": [
+                        "sha256"
+                    ]
+                },
+                {
+                    "data_path": "action_result.summary.unavailable_iocs_field_values",
+                    "data_type": "string",
+                    "example_values": [
+                        "test.com"
+                    ],
+                    "contains": [
+                        "domain"
+                    ]
                 },
                 {
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "Delete Report IOC Completed"
+                        "Delete Report IOC Completed",
+                        "Deleted ioc values: ['test.com'], Undeleted ioc values: ['10.11.12.13', 'da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b1'], Total deleted items: 1, Total undeleted items: 2"
                     ]
                 },
                 {
