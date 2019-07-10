@@ -321,8 +321,6 @@ class CarbonBlackThreathunterConnector(BaseConnector):
                 action = "add"
                 iocs = [create_ioc(ioc) for ioc in param]
                 report = {"id": report_hash,
-                          # "timestamp": time.mktime(datetime.datetime.strptime("2019-03-14T13:24:52.991454Z",
-                          #                                                    "%Y-%m-%dT%H:%M:%S.%fZ").timetuple()),
                           "timestamp": time.time(),
                           "title": "Case {} Report - {}".format(container_info.get("id"),
                                                                 container_info.get("name", "no_name")),
@@ -785,8 +783,6 @@ class CarbonBlackThreathunterConnector(BaseConnector):
 
         self.version = aconfig.get("app_version", "app_version_unknown")
 
-        # self._log.debug("action=configs config={} aconfig={} state={}".format(json.dumps(config), json.dumps(aconfig),
-        #                                                                     json.dumps(self._state)))
         """
         # Access values in asset config by the name
 
@@ -812,7 +808,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
         self.client = cb_psc_client(base_url=config['base_url'],
                                     api_id=config["api_id"],
                                     api_secret_key=config["api_secret_key"],
-                                    verify_ssl=config.get("verify_server_cert", False),
+                                    verify_ssl=True,
                                     version=self.version,
                                     org_key=config["org_key"],
                                     lr_api_secret_key=config.get("lr_api_secret_key", ""),

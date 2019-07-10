@@ -85,18 +85,11 @@
             "required": true,
             "order": 6
         },
-        "verify_server_cert": {
-            "description": "Should the SSL cert be verified",
-            "data_type": "boolean",
-            "required": true,
-            "default": false,
-            "order": 7
-        },
         "feed_type": {
             "description": "Feed Access Type",
             "data_type": "string",
             "required": true,
-            "order": 8,
+            "order": 7,
             "value_list": [
                 "private",
                 "public"
@@ -1642,7 +1635,12 @@
                         "10.1.18.251"
                     ],
                     "contains": [
-                        "ip"
+                        "domain",
+                        "ip",
+                        "email",
+                        "url",
+                        "hash",
+                        "string"
                     ]
                 },
                 {

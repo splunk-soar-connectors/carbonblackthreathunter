@@ -101,7 +101,6 @@
                         <th class="widget-th">Title</th>
                         <th class="widget-th">Description</th>
                         <th class="widget-th">IOCS_V2</th>
-                        <th class="widget-th">Indicators</th>
                         <th class="widget-th">Severity</th>
                     </thead>
                     {% for data in result.data %}
@@ -120,6 +119,7 @@
                                     <thead>
                                         <th class="widget-th">Field Type</th>
                                         <th class="widget-th">IOC_ID</th>
+                                        <th class="widget-th">IOCs Values</th>
                                     </thead>
                                         {% for ioc in data.iocs_v2 %}
                                         <tr>
@@ -134,21 +134,8 @@
                                                 <span class="fa fa-caret-down" style="font-size: smaller;"></span>
                                                 </a>
                                             </td>
-                                        </tr>
-                                        {% endfor %}
-                                </table>
-                            </td>
-                            <td class="widget-td">
-                                <table class="phantom-table dataTable">
-                                        <thead>
-                                            <th class="widget-th">Indicator Type</th>
-                                            <th class="widget-th">Indicator Values</th>
-                                        </thead>
-                                        {% for indicator in data.indicators %}
-                                        <tr>
-                                            <td>{{ indicator.type }}</td>
                                             <td>
-                                                {% for value in indicator.values %}
+                                                {% for value in ioc.values %}
                                                 <span class="glyphicon glyphicon-dot"></span>&nbsp;
                                                 <a href="javascript:;"
                                                     onclick="context_menu(this, [{'contains': ['domain','ip','email','url','hash','string','ipv6'],
