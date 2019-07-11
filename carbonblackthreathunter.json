@@ -757,7 +757,7 @@
                     "order": 3
                 },
                 "max_results": {
-                    "description": "A Maximum of results to return",
+                    "description": "Maximum number of results to return",
                     "data_type": "numeric",
                     "required": false,
                     "default": 5000,
@@ -1106,7 +1106,7 @@
                     "order": 0
                 },
                 "command": {
-                    "description": "Command to Execute",
+                    "description": "Command to execute",
                     "data_type": "string",
                     "required": true,
                     "value_list": [
@@ -1118,7 +1118,7 @@
                     "order": 1
                 },
                 "object": {
-                    "description": "Command Object",
+                    "description": "Command object",
                     "data_type": "string",
                     "required": false,
                     "order": 2
