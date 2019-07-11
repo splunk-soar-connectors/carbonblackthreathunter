@@ -18,7 +18,7 @@
     "app_wizard_version": "1.0.0",
     "configuration": {
         "base_url": {
-            "description": "PSC Console URL",
+            "description": "PSC console URL",
             "data_type": "string",
             "required": true,
             "order": 0,
@@ -54,13 +54,13 @@
             ]
         },
         "api_secret_key": {
-            "description": "PSC API Secret Key (API Key)",
+            "description": "PSC API secret key (API Key)",
             "data_type": "password",
             "required": true,
             "order": 2
         },
         "lr_api_secret_key": {
-            "description": "Live Response API Secret Key",
+            "description": "Live response API secret key",
             "data_type": "password",
             "required": false,
             "order": 3,
@@ -74,19 +74,19 @@
             "order": 4
         },
         "lr_api_id": {
-            "description": "Live Response API ID",
+            "description": "Live response API ID",
             "data_type": "string",
             "required": false,
             "order": 5
         },
         "org_key": {
-            "description": "PSC Organization Key",
+            "description": "PSC organization key",
             "data_type": "string",
             "required": true,
             "order": 6
         },
         "feed_type": {
-            "description": "Feed Access Type",
+            "description": "Feed access type",
             "data_type": "string",
             "required": true,
             "order": 7,
@@ -1283,7 +1283,7 @@
         {
             "action": "get single feed",
             "identifier": "get_single_feed",
-            "description": "Get Feed Info for a single feed",
+            "description": "Get feed info for a single feed",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -1426,7 +1426,7 @@
         {
             "action": "delete single feed",
             "identifier": "delete_feed",
-            "description": "Delete Single Feed",
+            "description": "Delete single feed",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -1512,7 +1512,7 @@
         {
             "action": "get feed reports",
             "identifier": "get_feed_reports",
-            "description": "Get Reports for a single feed",
+            "description": "Get reports for a single feed",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -1723,7 +1723,7 @@
             "read_only": true,
             "parameters": {
                 "include_public": {
-                    "description": "Should Public feeds be included",
+                    "description": "Should public feeds be included",
                     "data_type": "boolean",
                     "required": false,
                     "primary": true,
@@ -1867,7 +1867,7 @@
             "action": "create report ioc",
             "identifier": "create_report_ioc",
             "description": "Add an IOC to a report",
-            "verbose": "At least one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'",
+            "verbose": "At least one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'.",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -2224,7 +2224,7 @@
             "action": "delete report ioc",
             "identifier": "delete_report_ioc",
             "description": "Remove an IOC from a report",
-            "verbose": "Before executing the action the container type should be changed from 'default' to 'case'",
+            "verbose": "Before executing the action the container type should be changed from 'default' to 'case'.",
             "type": "generic",
             "read_only": false,
             "parameters": {
