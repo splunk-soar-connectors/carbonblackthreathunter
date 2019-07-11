@@ -825,7 +825,7 @@ class CarbonBlackThreathunterConnector(BaseConnector):
             # If there are no errors, the list will be "all false", which when negated is "true", meaning no errors.
                 return phantom.APP_SUCCESS
             except Exception as e:
-                message = CBTHREATHUNTER_GET_CB_FEED_ERROR.format(file_path=touchpoint, error_msg=str(e))
+                message = CBTHREATHUNTER_GET_CB_FEED_ERROR.format(file=touchpoint, error=str(e))
                 return self.set_status(phantom.APP_ERROR, message)
 
         self.save_progress("{}".format(", ".join([x for x in configuration_errors if x])))

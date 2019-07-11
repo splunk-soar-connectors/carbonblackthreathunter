@@ -4,8 +4,8 @@
     "description": "Integrates Phantom with the Carbon Black PSC environment",
     "type": "endpoint",
     "product_vendor": "Carbon Black",
-    "logo": "carbonblackthreathunter_dark.svg",
-    "logo_dark": "carbonblackthreathunter.svg",
+    "logo": "logo_carbonblackthreathunter_dark.svg",
+    "logo_dark": "logo_carbonblackthreathunter.svg",
     "product_name": "ThreatHunter",
     "product_version_regex": ".*",
     "publisher": "Splunk",
@@ -183,14 +183,14 @@
                     "data_path": "action_result.data.*.file_details.company_name",
                     "data_type": "string",
                     "example_values": [
-                        "Microsoft Corporation"
+                        "Test Company Corporation"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.file_details.copyright",
                     "data_type": "string",
                     "example_values": [
-                        "\u00a9 Microsoft Corporation. All rights reserved."
+                        "Test Company Corporation. All rights reserved"
                     ]
                 },
                 {
@@ -284,7 +284,7 @@
                     "data_path": "action_result.data.*.file_details.product_name",
                     "data_type": "string",
                     "example_values": [
-                        "Microsoft\u00ae Windows\u00ae Operating System"
+                        "Windows Operating System"
                     ]
                 },
                 {
@@ -405,7 +405,6 @@
             "action": "get file metadata",
             "identifier": "get_file_metadata",
             "description": "Get metadata of a file",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -490,7 +489,7 @@
                     "column_name": "Company Name",
                     "column_order": 11,
                     "example_values": [
-                        "Microsoft Corporation"
+                        "Test Company Corporation"
                     ]
                 },
                 {
@@ -499,7 +498,7 @@
                     "column_name": "Copyright",
                     "column_order": 5,
                     "example_values": [
-                        "\u00a9 Microsoft Corporation. All rights reserved."
+                        "Test Company Corporation. All rights reserved"
                     ]
                 },
                 {
@@ -627,7 +626,7 @@
                     "column_name": "Product Name",
                     "column_order": 14,
                     "example_values": [
-                        "Microsoft\u00ae Windows\u00ae Operating System"
+                        "Windows Operating System"
                     ]
                 },
                 {
@@ -712,7 +711,6 @@
             "action": "run query",
             "identifier": "run_query",
             "description": "Invoke a search for process information",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -720,7 +718,7 @@
                     "description": "The process name",
                     "data_type": "string",
                     "required": false,
-                    "primary": false,
+                    "primary": true,
                     "contains": [
                         "file name"
                     ],
@@ -762,15 +760,13 @@
                     "description": "A Maximum of results to return",
                     "data_type": "numeric",
                     "required": false,
-                    "primary": false,
                     "default": 5000,
                     "order": 4
                 },
                 "search_operator": {
-                    "description": "Logically, AND or OR.",
+                    "description": "Logically, AND or OR",
                     "data_type": "string",
                     "required": false,
-                    "primary": false,
                     "value_list": [
                         "AND",
                         "OR"
@@ -871,7 +867,7 @@
                     "data_path": "action_result.data.*.device_id",
                     "data_type": "string",
                     "contains": [
-                        "device id"
+                        "cbthreathunter device id"
                     ],
                     "column_name": "Device ID",
                     "column_order": 3,
@@ -888,7 +884,7 @@
                     "column_name": "Device Name",
                     "column_order": 2,
                     "example_values": [
-                        "cbthreathunter"
+                        "Device 1"
                     ]
                 },
                 {
@@ -1096,7 +1092,6 @@
             "action": "live response",
             "identifier": "live_response",
             "description": "Take Action on remote endpoint",
-            "verbose": "",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -1106,7 +1101,7 @@
                     "required": true,
                     "primary": true,
                     "contains": [
-                        "device id"
+                        "cbthreathunter device id"
                     ],
                     "order": 0
                 },
@@ -1114,7 +1109,6 @@
                     "description": "Command to Execute",
                     "data_type": "string",
                     "required": true,
-                    "primary": false,
                     "value_list": [
                         "delete file",
                         "get file",
@@ -1127,7 +1121,6 @@
                     "description": "Command Object",
                     "data_type": "string",
                     "required": false,
-                    "primary": false,
                     "order": 2
                 }
             },
@@ -1151,7 +1144,7 @@
                     "data_path": "action_result.parameter.device_id",
                     "data_type": "string",
                     "contains": [
-                        "device id"
+                        "cbthreathunter device id"
                     ],
                     "example_values": [
                         "1155127"
@@ -1167,7 +1160,7 @@
                     "column_order": 4,
                     "column_name": "Command Line",
                     "example_values": [
-                        ""
+                        "c:\\program files (x86)\\google\\chrome\\application\\chrome.exe"
                     ],
                     "contains": [
                         "file name",
@@ -1291,7 +1284,6 @@
             "action": "get single feed",
             "identifier": "get_single_feed",
             "description": "Get Feed Info for a single feed",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -1435,7 +1427,6 @@
             "action": "delete single feed",
             "identifier": "delete_feed",
             "description": "Delete Single Feed",
-            "verbose": "",
             "type": "generic",
             "read_only": true,
             "parameters": {
@@ -1522,7 +1513,6 @@
             "action": "get feed reports",
             "identifier": "get_feed_reports",
             "description": "Get Reports for a single feed",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -1560,7 +1550,7 @@
                     "data_path": "action_result.data.*.description",
                     "data_type": "string",
                     "example_values": [
-                        ""
+                        "Sample feed description"
                     ]
                 },
                 {
@@ -1674,10 +1664,8 @@
                 {
                     "data_path": "action_result.data.*.title",
                     "data_type": "string",
-                    "column_name": "Title",
-                    "column_order": 3,
                     "example_values": [
-                        "Case 5871 Report - meet_cbth_test"
+                        "Case 5871 Report - cbth_test"
                     ]
                 },
                 {
@@ -1731,7 +1719,6 @@
             "action": "get all feeds",
             "identifier": "get_all_feeds",
             "description": "Get a list of feeds available",
-            "verbose": "",
             "type": "investigate",
             "read_only": true,
             "parameters": {
@@ -2109,8 +2096,7 @@
                         "domain"
                     ],
                     "example_values": [
-                        "s.symcd.com",
-                        "testpro.com"
+                        "s.symcd.com"
                     ]
                 },
                 {
@@ -2121,8 +2107,7 @@
                         "sha256"
                     ],
                     "example_values": [
-                        "93b2ed4004ed5f7f3039dd7ecbd22c7e4e24b6373b4d9ef8d6e45a179b13a5e8",
-                        "da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b1"
+                        "93b2ed4004ed5f7f3039dd7ecbd22c7e4e24b6373b4d9ef8d6e45a179b13a5e8"
                     ]
                 },
                 {
@@ -2132,8 +2117,7 @@
                         "ip"
                     ],
                     "example_values": [
-                        "10.1.18.251",
-                        "10.11.12.13"
+                        "10.1.18.251"
                     ]
                 },
                 {
@@ -2161,14 +2145,12 @@
                         "cbthreathunter ioc id"
                     ],
                     "example_values": [
-                        "d76d08bb-4f42-49d8-a829-c4de2b70869c",
-                        "ab89a20c-2b07-4bb5-a03d-67480c36dc8f"
+                        "d76d08bb-4f42-49d8-a829-c4de2b70869c"
                     ]
                 },
                 {
                     "data_path": "action_result.data.*.link",
-                    "data_type": "string",
-                    "example_values": []
+                    "data_type": "string"
                 },
                 {
                     "data_path": "action_result.data.*.match_type",
@@ -2220,8 +2202,7 @@
                     "data_path": "action_result.message",
                     "data_type": "string",
                     "example_values": [
-                        "Delete Report IOC Completed",
-                        "Deleted ioc values: ['test.com'], Undeleted ioc values: ['10.11.12.13', 'da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b1'], Total deleted items: 1, Total undeleted items: 2"
+                        "Deleted ioc values: ['test.com'], Undeleted ioc values: ['10.11.12.13', 'da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b1']"
                     ]
                 },
                 {
@@ -2300,8 +2281,6 @@
                     "contains": [
                         "cbthreathunter ioc id"
                     ],
-                    "column_name": "Undeleted IOC IDs",
-                    "column_order": 0,
                     "example_values": [
                         "739ea2cc-6186-437f-8124-4732c356a601"
                     ]
