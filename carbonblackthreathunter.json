@@ -4,8 +4,8 @@
     "description": "Integrates Phantom with the Carbon Black PSC environment",
     "type": "endpoint",
     "product_vendor": "Carbon Black",
-    "logo": "logo_carbonblackthreathunter_dark.svg",
-    "logo_dark": "logo_carbonblackthreathunter.svg",
+    "logo": "logo_carbonblackthreathunter.svg",
+    "logo_dark": "logo_carbonblackthreathunter_dark.svg",
     "product_name": "ThreatHunter",
     "product_version_regex": ".*",
     "publisher": "Splunk",
@@ -455,7 +455,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.available_file_size",
-                    "data_type": "string",
+                    "data_type": "numeric",
                     "contains": [
                         "file size"
                     ],
@@ -467,7 +467,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.charset_id",
-                    "data_type": "string",
+                    "data_type": "numeric",
                     "column_name": "Charset ID",
                     "column_order": 15,
                     "example_values": [
@@ -503,7 +503,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.file_available",
-                    "data_type": "string",
+                    "data_type": "boolean",
                     "column_name": "File Available",
                     "column_order": 18,
                     "example_values": [
@@ -532,7 +532,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.file_size",
-                    "data_type": "string",
+                    "data_type": "numeric",
                     "contains": [
                         "file size"
                     ],
@@ -568,7 +568,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.lang_id",
-                    "data_type": "string",
+                    "data_type": "numeric",
                     "column_name": "Lang ID",
                     "column_order": 10,
                     "example_values": [
@@ -820,7 +820,7 @@
                 },
                 {
                     "data_path": "action_result.parameter.max_results",
-                    "data_type": "string",
+                    "data_type": "numeric",
                     "example_values": [
                         10
                     ]
@@ -865,7 +865,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.device_id",
-                    "data_type": "string",
+                    "data_type": "numeric",
                     "contains": [
                         "cbthreathunter device id"
                     ],
@@ -1091,7 +1091,7 @@
         {
             "action": "live response",
             "identifier": "live_response",
-            "description": "Take Action on remote endpoint",
+            "description": "Take action on the remote endpoint",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -1428,7 +1428,7 @@
             "identifier": "delete_feed",
             "description": "Delete Single Feed",
             "type": "generic",
-            "read_only": true,
+            "read_only": false,
             "parameters": {
                 "feed_id": {
                     "description": "ID of the feed",
@@ -1639,7 +1639,7 @@
                 },
                 {
                     "data_path": "action_result.data.*.severity",
-                    "data_type": "string",
+                    "data_type": "numeric",
                     "contains": [
                         "severity"
                     ],
@@ -1867,7 +1867,7 @@
             "action": "create report ioc",
             "identifier": "create_report_ioc",
             "description": "Add an IOC to a report",
-            "verbose": "Atleast one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'",
+            "verbose": "At least one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -2034,7 +2034,7 @@
             "action": "delete ioc value",
             "identifier": "delete_ioc_value",
             "description": "Delete IOC value from a report",
-            "verbose": "Atleast one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'",
+            "verbose": "At least one parameter value needs to be provided to execute the action and before executing the action the container type should be changed from 'default' to 'case'",
             "type": "generic",
             "read_only": false,
             "parameters": {
@@ -2183,9 +2183,6 @@
                     "data_type": "string",
                     "example_values": [
                         "da6aee3ebd82646396e55850cb9f44fc10632a8fe089170f7cce76abc20625b1"
-                    ],
-                    "contains": [
-                        "sha256"
                     ]
                 },
                 {
@@ -2193,9 +2190,6 @@
                     "data_type": "string",
                     "example_values": [
                         "test.com"
-                    ],
-                    "contains": [
-                        "domain"
                     ]
                 },
                 {
