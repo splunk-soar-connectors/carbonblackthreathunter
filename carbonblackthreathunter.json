@@ -18,7 +18,7 @@
     "app_wizard_version": "1.0.0",
     "configuration": {
         "base_url": {
-            "description": "PSC console URL",
+            "description": "PSC Console URL",
             "data_type": "string",
             "required": true,
             "order": 0,
@@ -54,13 +54,13 @@
             ]
         },
         "api_secret_key": {
-            "description": "PSC API secret key (API Key)",
+            "description": "PSC API Secret Key (API Key)",
             "data_type": "password",
             "required": true,
             "order": 2
         },
         "lr_api_secret_key": {
-            "description": "Live response API secret key",
+            "description": "Live Response API Secret Key",
             "data_type": "password",
             "required": false,
             "order": 3,
@@ -74,19 +74,19 @@
             "order": 4
         },
         "lr_api_id": {
-            "description": "Live response API ID",
+            "description": "Live Response API ID",
             "data_type": "string",
             "required": false,
             "order": 5
         },
         "org_key": {
-            "description": "PSC organization key",
+            "description": "PSC Organization Key",
             "data_type": "string",
             "required": true,
             "order": 6
         },
         "feed_type": {
-            "description": "Feed access type",
+            "description": "Feed Access Type",
             "data_type": "string",
             "required": true,
             "order": 7,
