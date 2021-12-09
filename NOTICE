@@ -1,0 +1,19 @@
+Splunk SOAR Carbon Black ThreatHunter
+Copyright (c) Carbon Black, 2019
+
+Third-party Software Attributions:
+
+Library: python-magic
+Version: 0.4.18
+License: MIT
+Copyright 2001-2014 Adam Hupp
+
+Library: pudb
+Version: 2019.2
+License: MIT
+Copyright 2009 Andreas Kloeckner and contributors
+
+Library: requests
+Version: 2.25.0
+License: Apache 2.0
+Kenneth Reitz
